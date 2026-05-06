@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>完形填空闯关训练 MVP</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen">
+      <div class="login-card">
+        <div class="login-hero">
+          <div class="login-brand">
+            <p class="login-kicker">@新疆学生无限进步 我们始终相信你可以无限进步</p>
+            <h1>新疆中考完型解题训练系统</h1>
+            <h2>3分钟满分训练</h2>
+          </div>
+          <div class="login-panel">
+            <div class="login-form">
+              <label for="loginCode">登录码 <small>请找工作人员领取</small></label>
+              <div class="login-row">
+                <input id="loginCode" type="password" autocomplete="off" placeholder="请输入登录码" />
+                <button id="loginBtn" class="primary-button">登录</button>
+              </div>
+              <p id="loginFeedback" class="feedback"></p>
+            </div>
+          </div>
+        </div>
+        <article class="login-tip image-tip">
+          <img src="warm-tip.png" alt="温馨提示：完形填空训练方法说明" />
+        </article>
+      </div>
+    </section>
+
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Cloze Coach MVP</p>
+          <h1>完形填空闯关训练</h1>
+          <p class="subtitle">首尾定调、词性判断、错题解析、复盘提升。</p>
+        </div>
+
+        <section class="lesson-card">
+          <div class="lesson-meta">
+            <span id="currentLevel">初中</span>
+            <span id="currentDifficulty">中等</span>
+            <span id="currentCount">15题</span>
+            <span id="currentSource">中考题库</span>
+          </div>
+          <h2 id="currentTitle">颜色们的争吵</h2>
+          <p id="currentEnglishTitle">The Colors Argued</p>
+        </section>
+
+        <section class="sidebar-library">
+          <p class="eyebrow">题库选择</p>
+          <div id="lessonGrid" class="lesson-grid"></div>
+        </section>
+
+        <nav class="step-list" aria-label="训练流程">
+          <button class="step-item active" data-jump="gate">1. 首尾定调</button>
+          <button class="step-item" data-jump="training">2. 逐空训练</button>
+          <button class="step-item" data-jump="result" disabled>3. 错题解析</button>
+          <button class="step-item" data-jump="verify">4. 复盘提升</button>
+          <button class="step-item" data-jump="notebook">专属错题本</button>
+        </nav>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">当前文章</p>
+            <h2><span id="topTitle" class="top-title-main">颜色们的争吵</span> <span id="topEnglishTitle">The Colors Argued</span></h2>
+          </div>
+          <div class="progress-box">
+            <span id="progressText">待解锁</span>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-fill"></div>
+            </div>
+          </div>
+        </header>
+
+        <section id="gate" class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">破冰闯关区</p>
+            <h3>先读首尾句，判断文章走向</h3>
+          </div>
+
+          <div class="quote-grid">
+            <article>
+              <span>首句</span>
+              <p id="firstSentence">A long time ago, the colors argued about who was the best, the most important, and the most beautiful one in the world.</p>
+            </article>
+            <article>
+              <span>尾句</span>
+              <p id="lastSentence">They appreciate and love one another, and show one of the most beautiful ____ to the world.</p>
+            </article>
+          </div>
+
+          <div class="tone-options" id="toneOptions"></div>
+          <p id="gateFeedback" class="feedback"></p>
+        </section>
+
+        <section id="training" class="panel">
+          <div class="panel-heading row">
+            <div>
+              <p class="eyebrow">逐空训练区</p>
+              <h3>做题关键步骤：1判断词性，2寻找线索，3选定答案，4代入验证</h3>
+            </div>
+            <button id="resetBtn" class="ghost-button">重新训练</button>
+          </div>
+
+          <div class="training-layout">
+            <article id="passage" class="passage"></article>
+
+            <aside class="question-panel">
+              <div id="emptyState" class="empty-state">
+                <strong>点击文章里的空格</strong>
+                <p>每一题会先要求判断词性，正确后才展开选项。</p>
+              </div>
+
+              <div id="questionBox" class="hidden">
+                <div class="question-title">
+                  <span id="questionNumber"></span>
+                  <span id="questionCategory"></span>
+                </div>
+
+                <section id="optionPreviewStep" class="mini-section option-preview-section">
+                  <h4>本题选项</h4>
+                  <div id="optionPreview" class="option-preview"></div>
+                </section>
+
+                <section id="posStep" class="mini-section">
+                  <h4>第一步：判断词性</h4>
+                  <div id="posOptions" class="chip-grid"></div>
+                  <p id="posFeedback" class="feedback"></p>
+                </section>
+
+                <section id="toolStep" class="mini-section hidden">
+                  <h4 id="toolTitle"></h4>
+                  <div id="toolGuide" class="tool-guide"></div>
+                  <div id="clueWords" class="clue-list"></div>
+                </section>
+
+                <section id="answerStep" class="mini-section hidden">
+                  <h4>第二步：选择答案</h4>
+                  <div id="answerOptions" class="answer-grid"></div>
+                  <p id="answerFeedback" class="feedback"></p>
+                </section>
+
+                <section id="sentenceCheckStep" class="mini-section hidden">
+                  <h4>第三步：代入原句验证 <small>如果验证不通，再重选一次吧</small></h4>
+                  <p id="sentenceCheck" class="sentence-check"></p>
+                </section>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="result" class="panel locked hidden">
+          <div class="panel-heading">
+            <p class="eyebrow">错题解析区</p>
+            <h3>错题解析</h3>
+          </div>
+          <div id="reflection" class="reflection">
+            <h4>灵魂三问</h4>
+            <label><input type="checkbox" /> 1. 通读全文了吗？</label>
+            <label><input type="checkbox" /> 2. 关键信息勾画了吗？</label>
+            <label><input type="checkbox" /> 3. 带回原文检查了吗？</label>
+          </div>
+          <div id="scoreBox" class="score-box"></div>
+          <div id="mistakeTable" class="mistake-table"></div>
+        </section>
+
+        <section id="verify" class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">复盘提升区</p>
+            <h3>做完再读一遍，是提升的关键</h3>
+          </div>
+          <div class="read-aloud">
+            <div>
+              <strong id="readStatus">点击任意英文句子即可朗读</strong>
+              <p>点哪一句，哪一句高亮、发音，并显示中文意思。</p>
+            </div>
+          </div>
+          <article id="filledPassage" class="filled-passage"></article>
+          <div id="sentenceMeaning" class="translation-card">
+            <strong>句意</strong>
+            <p>点击上方任意一句，查看中文意思。</p>
+          </div>
+        </section>
+
+        <section id="notebook" class="panel">
+          <div class="panel-heading">
+            <p class="eyebrow">专属错题本</p>
+            <h3>按错题类型整理规律</h3>
+          </div>
+          <div id="notebookSummary" class="notebook-summary"></div>
+          <div id="notebookGroups" class="notebook-groups"></div>
+        </section>
+
+        <footer class="site-footer">@新疆学生无限进步 我们始终相信，你可以无限进步</footer>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
