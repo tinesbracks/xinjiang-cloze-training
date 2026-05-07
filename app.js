@@ -2236,15 +2236,21 @@ function renderOptionPreview(question) {
 function renderPosStep(question) {
   els.posOptions.innerHTML = "";
   els.posFeedback.className = "feedback";
-  els.posFeedback.textContent = state.posPassed[question.id] ? "成分/重点判断已通过。" : "";
-  posChoices.forEach((choice) => {
-    const button = document.createElement("button");
-    button.className = "choice-button";
-    button.textContent = choice;
-    if (state.posPassed[question.id] && choice === question.pos) button.classList.add("correct");
-    button.addEventListener("click", () => choosePos(question, choice, button));
-    els.posOptions.appendChild(button);
-  });
+  state.posPassed[question.id] = true;
+
+  const hasCollocation = question.collocation && question.collocation !== "无";
+  document.querySelector("#posStep").classList.toggle("hidden", !hasCollocation);
+  if (hasCollocation) {
+    els.posOptions.innerHTML = `
+      <div class="collocation-box">
+        <strong>${question.collocation}</strong>
+        <span>${question.collocationType || "固定搭配"}</span>
+        <p>${question.collocationBreakdown || ""}</p>
+      </div>
+    `;
+    els.posFeedback.textContent = "本题有固定搭配，先把搭配结构看清楚。";
+  }
+  renderPassage();
   toggleAnswerVisibility(question);
 }
 
