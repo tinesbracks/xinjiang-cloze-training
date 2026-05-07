@@ -2236,7 +2236,7 @@ function renderOptionPreview(question) {
 function renderPosStep(question) {
   els.posOptions.innerHTML = "";
   els.posFeedback.className = "feedback";
-  els.posFeedback.textContent = state.posPassed[question.id] ? "词性判断已通过。" : "";
+  els.posFeedback.textContent = state.posPassed[question.id] ? "成分/重点判断已通过。" : "";
   posChoices.forEach((choice) => {
     const button = document.createElement("button");
     button.className = "choice-button";
@@ -2256,7 +2256,7 @@ function choosePos(question, choice, button) {
     state.posPassed[question.id] = true;
     button.classList.add("correct");
     els.posFeedback.className = "feedback good";
-    els.posFeedback.textContent = "词性判断正确，解题道具已打开。";
+    els.posFeedback.textContent = "成分/重点判断正确，解题道具已打开。";
   } else {
     button.classList.add("wrong");
     els.posFeedback.className = "feedback bad";
