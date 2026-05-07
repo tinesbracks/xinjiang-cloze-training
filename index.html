@@ -32,8 +32,8 @@
       </div>
     </section>
 
-    <main class="app-shell">
-      <aside class="sidebar">
+    <main id="appShell" class="app-shell home-mode">
+      <aside id="sidebar" class="sidebar">
         <div>
           <p class="eyebrow">Cloze Coach MVP</p>
           <h1>完形填空闯关训练</h1>
@@ -66,20 +66,32 @@
       </aside>
 
       <section class="workspace">
+        <section id="home" class="panel home-panel">
+          <div class="home-heading">
+            <p class="eyebrow">题库主页</p>
+            <h2>选择一篇文章开始训练</h2>
+            <p>已上传的文章会显示在这里。做过的文章会保留记录，也可以重复练习。</p>
+          </div>
+          <div id="homeGrid" class="home-grid"></div>
+        </section>
+
         <header class="topbar">
           <div>
             <p class="eyebrow">当前文章</p>
             <h2><span id="topTitle" class="top-title-main">颜色们的争吵</span> <span id="topEnglishTitle">The Colors Argued</span></h2>
           </div>
-          <div class="progress-box">
+          <div class="top-actions">
+            <button id="backHomeBtn" class="ghost-button">返回主页</button>
+            <div class="progress-box">
             <span id="progressText">待解锁</span>
             <div class="progress-track">
               <div id="progressBar" class="progress-fill"></div>
             </div>
+            </div>
           </div>
         </header>
 
-        <section id="gate" class="panel">
+        <section id="gate" class="panel study-panel">
           <div class="panel-heading">
             <p class="eyebrow">破冰闯关区</p>
             <h3>先读首尾句，判断文章走向</h3>
@@ -100,7 +112,7 @@
           <p id="gateFeedback" class="feedback"></p>
         </section>
 
-        <section id="training" class="panel">
+        <section id="training" class="panel study-panel">
           <div class="panel-heading row">
             <div>
               <p class="eyebrow">逐空训练区</p>
@@ -156,7 +168,7 @@
           </div>
         </section>
 
-        <section id="result" class="panel locked hidden">
+        <section id="result" class="panel locked hidden study-panel">
           <div class="panel-heading">
             <p class="eyebrow">错题解析区</p>
             <h3>错题解析</h3>
@@ -169,9 +181,10 @@
           </div>
           <div id="scoreBox" class="score-box"></div>
           <div id="mistakeTable" class="mistake-table"></div>
+          <button id="resultHomeBtn" class="primary-button return-home-button">返回主页继续选题</button>
         </section>
 
-        <section id="verify" class="panel">
+        <section id="verify" class="panel study-panel">
           <div class="panel-heading">
             <p class="eyebrow">复盘提升区</p>
             <h3>做完再读一遍，是提升的关键</h3>
@@ -189,7 +202,7 @@
           </div>
         </section>
 
-        <section id="notebook" class="panel">
+        <section id="notebook" class="panel study-panel">
           <div class="panel-heading">
             <p class="eyebrow">专属错题本</p>
             <h3>按错题类型整理规律</h3>
