@@ -2627,8 +2627,12 @@ const lessonSlots = lessonBanks.flatMap((bank) => bank.lessons);
 const storageKeys = {
   done: "clozeCoach.doneLessons",
   mistakes: "clozeCoach.mistakeNotebook",
-  login: "clozeCoach.loginOk"
+  login: "clozeCoach.loginOk",
+  loginExpiresAt: "clozeCoach.loginExpiresAt",
+  trialCodes: "clozeCoach.trialCodes"
 };
+
+const trialDurationMs = 24 * 60 * 60 * 1000;
 
 const validLoginCodes = [
   "A7K2M9",
@@ -2682,6 +2686,8 @@ const validLoginCodes = [
   "O6D4T8",
   "I3W7A5"
 ];
+
+const trialLoginCodes = ["TY24A8"];
 
 const categoryTips = {
   "逻辑推理": "先判断前后句关系，再看选项是否符合因果、转折、替代、并列等逻辑。",
@@ -2802,8 +2808,10 @@ function enterStudy() {
 }
 
 function initLogin() {
-  if (localStorage.getItem(storageKeys.login) === "true") {
+  if (hasValidLogin()) {
     els.loginScreen.classList.add("hidden");
+  } else {
+    els.loginScreen.classList.remove("hidden");
   }
 
   els.loginBtn.addEventListener("click", handleLogin);
@@ -2812,10 +2820,34 @@ function initLogin() {
   });
 }
 
+function hasValidLogin() {
+  if (localStorage.getItem(storageKeys.login) !== "true") return false;
+  const expiresAt = Number(localStorage.getItem(storageKeys.loginExpiresAt) || 0);
+  if (!expiresAt) return true;
+  if (Date.now() < expiresAt) return true;
+  localStorage.removeItem(storageKeys.login);
+  localStorage.removeItem(storageKeys.loginExpiresAt);
+  return false;
+}
+
 function handleLogin() {
   const code = els.loginCode.value.trim().toUpperCase();
   if (validLoginCodes.includes(code)) {
     localStorage.setItem(storageKeys.login, "true");
+    localStorage.removeItem(storageKeys.loginExpiresAt);
+    els.loginScreen.classList.add("hidden");
+    els.loginFeedback.textContent = "";
+    return;
+  }
+
+  if (trialLoginCodes.includes(code)) {
+    const trialCodes = readJson(storageKeys.trialCodes, {});
+    const now = Date.now();
+    const expiresAt = trialCodes[code] && trialCodes[code] > now ? trialCodes[code] : now + trialDurationMs;
+    trialCodes[code] = expiresAt;
+    writeJson(storageKeys.trialCodes, trialCodes);
+    localStorage.setItem(storageKeys.login, "true");
+    localStorage.setItem(storageKeys.loginExpiresAt, String(expiresAt));
     els.loginScreen.classList.add("hidden");
     els.loginFeedback.textContent = "";
     return;
