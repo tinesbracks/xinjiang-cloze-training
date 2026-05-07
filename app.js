@@ -1692,38 +1692,14 @@ const markelaBeekeepingDream = {
 
 const lessonBanks = [
   {
-    id: "grade7",
-    title: "七年级",
-    lessons: Array.from({ length: 15 }, (_, index) => ({
-      id: `grade7-slot-${index + 1}`,
-      title: `七年级第 ${index + 1} 篇`,
-      englishTitle: "待导入",
-      level: "七年级",
-      difficulty: "待定",
-      tags: ["待导入"],
-      available: false,
-      questions: []
-    }))
-  },
-  {
-    id: "grade8",
-    title: "八年级",
+    id: "basic",
+    title: "初阶",
     lessons: [
       refrigeratorMagnets,
       braveBoyHouseFire,
       saltyJuiceLife,
       climbingQomolangma,
-      markelaBeekeepingDream,
-      ...Array.from({ length: 10 }, (_, index) => ({
-      id: `grade8-slot-${index + 6}`,
-      title: `八年级第 ${index + 6} 篇`,
-      englishTitle: "待导入",
-      level: "八年级",
-      difficulty: "待定",
-      tags: ["待导入"],
-      available: false,
-      questions: []
-    }))
+      markelaBeekeepingDream
     ]
   },
   {
@@ -1743,17 +1719,7 @@ const lessonBanks = [
       vultureRevelation,
       paperBridgeValue,
       collettesCookieDream,
-      unexpectedSpringPicnic,
-      ...Array.from({ length: 1 }, (_, index) => ({
-    id: `exam-slot-${index + 15}`,
-    title: `中考第 ${index + 15} 篇`,
-    englishTitle: "待导入",
-    level: "初中",
-    difficulty: "待定",
-    tags: ["待导入"],
-    available: false,
-    questions: []
-      }))
+      unexpectedSpringPicnic
     ]
   }
 ];
