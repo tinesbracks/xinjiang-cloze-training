@@ -1815,6 +1815,7 @@ function q(id, options, answer, pos, category, clues, explanation, collocation =
 }
 
 const els = {
+  appShell: document.querySelector("#appShell"),
   loginScreen: document.querySelector("#loginScreen"),
   loginCode: document.querySelector("#loginCode"),
   loginBtn: document.querySelector("#loginBtn"),
@@ -1829,6 +1830,7 @@ const els = {
   topEnglishTitle: document.querySelector("#topEnglishTitle"),
   firstSentence: document.querySelector("#firstSentence"),
   lastSentence: document.querySelector("#lastSentence"),
+  homeGrid: document.querySelector("#homeGrid"),
   lessonGrid: document.querySelector("#lessonGrid"),
   toneOptions: document.querySelector("#toneOptions"),
   gateFeedback: document.querySelector("#gateFeedback"),
@@ -1860,12 +1862,16 @@ const els = {
   progressText: document.querySelector("#progressText"),
   progressBar: document.querySelector("#progressBar"),
   resetBtn: document.querySelector("#resetBtn"),
+  backHomeBtn: document.querySelector("#backHomeBtn"),
+  resultHomeBtn: document.querySelector("#resultHomeBtn"),
   notebookSummary: document.querySelector("#notebookSummary"),
   notebookGroups: document.querySelector("#notebookGroups")
 };
 
 function init() {
   initLogin();
+  enterHome();
+  renderHomeLibrary();
   renderLessonLibrary();
   renderLessonHeader();
   renderToneGate();
@@ -1875,6 +1881,19 @@ function init() {
   bindStaticEvents();
   updateProgress();
   renderNotebook();
+}
+
+function enterHome() {
+  els.appShell.classList.add("home-mode");
+  els.appShell.classList.remove("study-mode");
+  resetSentenceAudio();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function enterStudy() {
+  els.appShell.classList.remove("home-mode");
+  els.appShell.classList.add("study-mode");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function initLogin() {
@@ -1899,6 +1918,48 @@ function handleLogin() {
 
   els.loginFeedback.className = "feedback bad";
   els.loginFeedback.textContent = "登录码不正确，请检查后再试。";
+}
+
+function renderHomeLibrary() {
+  const doneLessons = getDoneLessons();
+  els.homeGrid.innerHTML = "";
+  lessonBanks.forEach((bank) => {
+    const availableLessons = bank.lessons.filter((item) => item.available);
+    if (!availableLessons.length) return;
+
+    const section = document.createElement("section");
+    section.className = "home-bank";
+    section.innerHTML = `
+      <div class="home-bank-heading">
+        <h3>${bank.title}</h3>
+        <span>${availableLessons.length}篇</span>
+      </div>
+    `;
+
+    const list = document.createElement("div");
+    list.className = "home-card-grid";
+    availableLessons.forEach((item, index) => {
+      const isDone = Boolean(doneLessons[item.id]);
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "home-lesson-card";
+      card.innerHTML = `
+        <div class="home-card-topline">
+          <span>第${index + 1}篇</span>
+          <span class="status-pill ${isDone ? "done" : "ready"}">${isDone ? "已做，可重复" : "开始训练"}</span>
+        </div>
+        <strong>${item.title}</strong>
+        <p>${item.englishTitle}</p>
+        ${item.source ? `<p class="source-line">来源：${item.source}</p>` : ""}
+        <div class="tag-row">${item.tags.map((tag) => `<span>${tag}</span>`).join("")}</div>
+      `;
+      card.addEventListener("click", () => selectLesson(item.id));
+      list.appendChild(card);
+    });
+
+    section.appendChild(list);
+    els.homeGrid.appendChild(section);
+  });
 }
 
 function renderLessonLibrary() {
@@ -1954,7 +2015,7 @@ function selectLesson(lessonId) {
   renderFilledPassage();
   resetSentenceAudio();
   updateProgress();
-  document.querySelector('[data-jump="training"]').click();
+  enterStudy();
 }
 
 function renderLessonHeader() {
@@ -2482,7 +2543,11 @@ function bindStaticEvents() {
     renderPassage();
     updateProgress();
     renderLessonLibrary();
+    renderHomeLibrary();
   });
+
+  els.backHomeBtn.addEventListener("click", enterHome);
+  els.resultHomeBtn.addEventListener("click", enterHome);
 }
 
 function playSentence(index) {
@@ -2575,6 +2640,7 @@ function renderResult() {
   markLessonDone(score);
   addMistakesToNotebook(wrong);
   renderLessonLibrary();
+  renderHomeLibrary();
   els.scoreBox.innerHTML = `<strong>本次得分：${score} / ${lesson.questions.length}</strong><p>错题数：${wrong.length}</p>`;
   els.mistakeTable.innerHTML = "";
   if (wrong.length === 0) {
