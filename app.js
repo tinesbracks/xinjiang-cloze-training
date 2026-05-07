@@ -1834,6 +1834,7 @@ const els = {
   topEnglishTitle: document.querySelector("#topEnglishTitle"),
   firstSentence: document.querySelector("#firstSentence"),
   lastSentence: document.querySelector("#lastSentence"),
+  homeProgress: document.querySelector("#homeProgress"),
   homeGrid: document.querySelector("#homeGrid"),
   lessonGrid: document.querySelector("#lessonGrid"),
   toneOptions: document.querySelector("#toneOptions"),
@@ -1858,6 +1859,7 @@ const els = {
   training: document.querySelector("#training"),
   verify: document.querySelector("#verify"),
   result: document.querySelector("#result"),
+  collocationReview: document.querySelector("#collocationReview"),
   filledPassage: document.querySelector("#filledPassage"),
   readStatus: document.querySelector("#readStatus"),
   sentenceMeaning: document.querySelector("#sentenceMeaning"),
@@ -1881,6 +1883,7 @@ function init() {
   renderToneGate();
   renderPassage();
   renderFilledPassage();
+  renderCollocationReview();
   resetSentenceAudio();
   bindStaticEvents();
   updateProgress();
@@ -1924,8 +1927,34 @@ function handleLogin() {
   els.loginFeedback.textContent = "登录码不正确，请检查后再试。";
 }
 
+function getAvailableLessons() {
+  return lessonBanks.flatMap((bank) => bank.lessons.filter((item) => item.available));
+}
+
+function renderHomeProgress(doneLessons = getDoneLessons()) {
+  if (!els.homeProgress) return;
+  const lessons = getAvailableLessons();
+  const total = lessons.length;
+  const doneCount = lessons.filter((item) => doneLessons[item.id]).length;
+  const percent = total ? Math.round((doneCount / total) * 100) : 0;
+
+  els.homeProgress.innerHTML = `
+    <div class="home-progress-card">
+      <div>
+        <span>学习进度</span>
+        <strong>${doneCount} / ${total} 篇</strong>
+        <p>已做完的文章会显示为灰色，未做完的文章保持彩色，可随时重复练习。</p>
+      </div>
+      <div class="home-progress-meter" aria-label="学习进度 ${percent}%">
+        <div style="width: ${percent}%"></div>
+      </div>
+    </div>
+  `;
+}
+
 function renderHomeLibrary() {
   const doneLessons = getDoneLessons();
+  renderHomeProgress(doneLessons);
   els.homeGrid.innerHTML = "";
   lessonBanks.forEach((bank) => {
     const availableLessons = bank.lessons.filter((item) => item.available);
@@ -1946,7 +1975,7 @@ function renderHomeLibrary() {
       const isDone = Boolean(doneLessons[item.id]);
       const card = document.createElement("button");
       card.type = "button";
-      card.className = "home-lesson-card";
+      card.className = `home-lesson-card ${isDone ? "done" : "ready"}`;
       card.innerHTML = `
         <div class="home-card-topline">
           <span>第${index + 1}篇</span>
@@ -2017,6 +2046,7 @@ function selectLesson(lessonId) {
   renderToneGate();
   renderPassage();
   renderFilledPassage();
+  renderCollocationReview();
   resetSentenceAudio();
   updateProgress();
   enterStudy();
@@ -2496,9 +2526,63 @@ function findSentenceEndOffset(text) {
   return match ? match.index + match[0].length : -1;
 }
 
+function getLessonCollocations() {
+  const seen = new Set();
+  return lesson.questions
+    .filter((question) => question.collocation && question.collocation !== "无")
+    .map((question) => ({
+      id: question.id,
+      collocation: question.collocation,
+      type: question.collocationType && question.collocationType !== "无" ? question.collocationType : "固定搭配",
+      breakdown: question.collocationBreakdown && question.collocationBreakdown !== "无" ? question.collocationBreakdown : "",
+      explanation: question.explanation || ""
+    }))
+    .filter((item) => {
+      const key = `${item.collocation}|${item.breakdown}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+function renderCollocationReview() {
+  if (!els.collocationReview) return;
+  const items = getLessonCollocations();
+
+  if (!items.length) {
+    els.collocationReview.innerHTML = `
+      <div class="collocation-review-heading">
+        <span>固定搭配整理</span>
+        <strong>本篇无重点固定搭配</strong>
+      </div>
+      <p class="collocation-empty">这一篇更适合把注意力放在上下文线索、逻辑关系和情感走向上。</p>
+    `;
+    return;
+  }
+
+  els.collocationReview.innerHTML = `
+    <div class="collocation-review-heading">
+      <span>固定搭配整理</span>
+      <strong>本篇 ${items.length} 个重点搭配</strong>
+    </div>
+    <div class="collocation-review-list">
+      ${items.map((item) => `
+        <article class="collocation-review-card">
+          <div>
+            <span>第 ${item.id} 题 · ${item.type}</span>
+            <strong>${item.collocation}</strong>
+          </div>
+          ${item.breakdown ? `<p>${item.breakdown}</p>` : ""}
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
 function showVerify() {
   unlockPanel("verify");
   els.verify.classList.remove("hidden");
+  renderCollocationReview();
   renderFilledPassage();
   resetSentenceAudio();
 }
