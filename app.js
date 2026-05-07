@@ -1795,7 +1795,11 @@ const categoryTips = {
 };
 
 const posChoices = ["名词", "动词", "形容词副词", "连词逻辑", "代词", "介词搭配", "固定搭配"];
-const toneChoices = ["积极 / 喜爱", "消极 / 困难", "客观描述", "转折变化"];
+const toneChoices = [
+  { label: "积极 / 喜爱", value: "积极" },
+  { label: "消极 / 困难", value: "消极" },
+  { label: "转折变化", value: "转折变化" }
+];
 const state = {
   unlocked: true,
   lessonId: lesson.id,
@@ -2111,7 +2115,7 @@ function renderToneGate() {
   toneChoices.forEach((choice) => {
     const button = document.createElement("button");
     button.className = "choice-button";
-    button.textContent = choice;
+    button.textContent = choice.label;
     button.addEventListener("click", () => chooseTone(choice, button));
     els.toneOptions.appendChild(button);
   });
@@ -2121,7 +2125,7 @@ function chooseTone(choice, button) {
   document.querySelectorAll("#toneOptions .choice-button").forEach((item) => {
     item.classList.remove("correct", "wrong");
   });
-  if (choice === lesson.tone) {
+  if (choice.value === lesson.tone) {
     button.classList.add("correct");
     state.unlocked = true;
     els.gateFeedback.className = "feedback good";
@@ -2130,7 +2134,7 @@ function chooseTone(choice, button) {
   } else {
     button.classList.add("wrong");
     els.gateFeedback.className = "feedback bad";
-    els.gateFeedback.textContent = "再看一次首尾句：开头是争吵，结尾是欣赏与爱，情绪发生了明显转变。";
+    els.gateFeedback.textContent = `这篇不是「${choice.label}」。再看首尾句：${lesson.toneReason}`;
   }
 }
 
