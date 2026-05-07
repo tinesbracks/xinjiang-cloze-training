@@ -2236,40 +2236,66 @@ function renderOptionPreview(question) {
 function renderPosStep(question) {
   els.posOptions.innerHTML = "";
   els.posFeedback.className = "feedback";
-  state.posPassed[question.id] = true;
 
+  document.querySelector("#posStep").classList.remove("hidden");
   const hasCollocation = question.collocation && question.collocation !== "无";
-  document.querySelector("#posStep").classList.toggle("hidden", !hasCollocation);
+  const choices = [
+    { label: "固定搭配", value: true },
+    { label: "没有固定搭配", value: false }
+  ];
+
+  choices.forEach((choice) => {
+    const button = document.createElement("button");
+    button.className = "choice-button";
+    button.textContent = choice.label;
+    if (state.posPassed[question.id] && choice.value === hasCollocation) {
+      button.classList.add("correct");
+    }
+    button.addEventListener("click", () => chooseCollocationStep(question, choice.value, button));
+    els.posOptions.appendChild(button);
+  });
+
+  if (state.posPassed[question.id]) {
+    showCollocationStepResult(question);
+  } else {
+    els.posFeedback.textContent = "";
+  }
+  toggleAnswerVisibility(question);
+}
+
+function chooseCollocationStep(question, answer, button) {
+  document.querySelectorAll("#posOptions .choice-button").forEach((item) => {
+    item.classList.remove("correct", "wrong");
+  });
+  const hasCollocation = question.collocation && question.collocation !== "无";
+  if (answer === hasCollocation) {
+    state.posPassed[question.id] = true;
+    button.classList.add("correct");
+    showCollocationStepResult(question);
+  } else {
+    state.posPassed[question.id] = false;
+    button.classList.add("wrong");
+    els.posFeedback.className = "feedback bad";
+    els.posFeedback.textContent = "再看看空格前后的结构信号，判断这里是否有固定搭配。";
+  }
+  renderPassage();
+  toggleAnswerVisibility(question);
+}
+
+function showCollocationStepResult(question) {
+  const hasCollocation = question.collocation && question.collocation !== "无";
+  els.posFeedback.className = "feedback good";
   if (hasCollocation) {
-    els.posOptions.innerHTML = `
+    els.posFeedback.innerHTML = `
       <div class="collocation-box">
         <strong>${question.collocation}</strong>
         <span>${question.collocationType || "固定搭配"}</span>
         <p>${question.collocationBreakdown || ""}</p>
       </div>
     `;
-    els.posFeedback.textContent = "本题有固定搭配，先把搭配结构看清楚。";
-  }
-  renderPassage();
-  toggleAnswerVisibility(question);
-}
-
-function choosePos(question, choice, button) {
-  document.querySelectorAll("#posOptions .choice-button").forEach((item) => {
-    item.classList.remove("correct", "wrong");
-  });
-  if (choice === question.pos) {
-    state.posPassed[question.id] = true;
-    button.classList.add("correct");
-    els.posFeedback.className = "feedback good";
-    els.posFeedback.textContent = "成分/重点判断正确，解题道具已打开。";
   } else {
-    button.classList.add("wrong");
-    els.posFeedback.className = "feedback bad";
-    els.posFeedback.textContent = "先别急着看意思，再观察空格前后结构和选项形式。";
+    els.posFeedback.textContent = "判断正确：本题没有固定搭配，继续寻找上下文线索。";
   }
-  renderPassage();
-  toggleAnswerVisibility(question);
 }
 
 function renderToolStep(question) {
