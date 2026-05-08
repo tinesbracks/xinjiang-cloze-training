@@ -3576,6 +3576,180 @@ renderCollocationReview = function() {
   });
 };
 
+function getCollocationMeaning(item) {
+  const meanings = {
+    "take up a hobby": "开始培养一项爱好",
+    "remind sb. of sth.": "使某人想起某事",
+    "share sth. with sb.": "与某人分享某事",
+    "a sense of achievement": "成就感",
+    "most importantly": "最重要的是",
+    "house fire": "房屋火灾",
+    "in surprise": "惊讶地",
+    "one's first thought": "某人的第一想法",
+    "put out a fire": "灭火",
+    "be thankful for...": "因……而感激",
+    "pass away": "去世",
+    "fall out": "掉出来",
+    "wonder if...": "想知道是否……",
+    "beat on": "敲打在……上",
+    "take good care of sth.": "好好照顾某物",
+    "while doing sth.": "当做某事时",
+    "jump into": "跳进",
+    "be thankful to sb.": "感激某人",
+    "have a dream about": "做一个关于……的梦",
+    "keep a/the secret": "保守秘密",
+    "put sb. into prison": "把某人关进监狱",
+    "spend time (in) doing sth.": "花时间做某事",
+    "learn how to do sth.": "学习如何做某事",
+    "not... anymore": "不再……",
+    "with a kind face": "带着和蔼的面容",
+    "for a few minutes": "几分钟",
+    "return sth. to sb.": "把某物归还给某人",
+    "something important": "重要的事情",
+    "each other": "彼此，互相",
+    "go through": "经历，熬过",
+    "whether... or not": "是否",
+    "overcome challenges": "克服挑战",
+    "make sb. stronger": "让某人更强大",
+    "be inspired by": "被……鼓舞",
+    "get much attention": "获得很多关注",
+    "be regarded as... by...": "被……认为是……",
+    "the same one": "同一个",
+    "be filled with warmth": "充满温暖",
+    "take sb. to visit...": "带某人去参观……",
+    "look forward to doing sth.": "期待做某事",
+    "be similar to": "与……相似",
+    "calm sb. down": "使某人平静下来",
+    "by doing sth.": "通过做某事",
+    "get sth. done": "让某事被完成",
+    "be supposed to do sth.": "应该做某事",
+    "collect one's courage": "鼓起勇气",
+    "all of a sudden": "突然",
+    "at first": "起初",
+    "welcome sb. with sth.": "用某物欢迎某人",
+    "strongly refuse": "坚决拒绝",
+    "touch one's heart": "触动某人的心",
+    "do something meaningful": "做一些有意义的事",
+    "find jobs": "找工作",
+    "with": "带有，具有",
+    "something different": "不同的东西",
+    "one's way of doing sth.": "某人做某事的方法",
+    "put up a sign": "挂起标志",
+    "develop one's way of thinking": "发展思维方式",
+    "hand in one's paper": "交卷",
+    "waste one's talent": "浪费天赋",
+    "know the truth": "知道真相",
+    "hear of": "听说",
+    "be covered with": "被……覆盖",
+    "take in": "吸入，吸收",
+    "want to do sth.": "想要做某事",
+    "give up doing sth.": "放弃做某事",
+    "look after": "照顾",
+    "cause problems": "造成问题",
+    "A report says...": "一份报告称……",
+    "see movies": "看电影",
+    "tell sb. sth.": "告诉某人某事",
+    "take photos": "拍照",
+    "use one's phone": "使用某人的手机",
+    "enjoy life": "享受生活",
+    "a place to live in": "一个居住的地方",
+    "make rules": "制定规则",
+    "eat meals": "吃饭",
+    "turn off": "关闭",
+    "get up early": "早起",
+    "treat sb. with respect": "尊重地对待某人",
+    "double benefits": "双重好处",
+    "lose matches": "输掉比赛",
+    "make progress": "取得进步",
+    "encourage sb. to do sth.": "鼓励某人做某事",
+    "become a player": "成为一名运动员",
+    "keep the habit of doing sth.": "保持做某事的习惯",
+    "serve food": "上菜，供应食物",
+    "build a bridge": "架起桥梁",
+    "people from...": "来自……的人们",
+    "with a long history": "拥有悠久历史",
+    "so... that...": "如此……以至于……",
+    "visit a place": "参观某地",
+    "mother river": "母亲河",
+    "a symbol of": "……的象征",
+    "go fishing": "去钓鱼",
+    "beat fast": "快速跳动",
+    "care for": "照顾，照料",
+    "wait patiently": "耐心等待",
+    "be surprised to do sth.": "惊讶地做某事",
+    "solve difficulties": "解决困难",
+    "in a language": "用某种语言",
+    "translate... into...": "把……翻译成……",
+    "find out": "查明，弄清楚",
+    "remind sb. that...": "提醒某人……",
+    "It is amazing how...": "……真令人惊讶",
+    "an act of kindness": "一个善举",
+    "look inside": "往里面看",
+    "with a smile on one's face": "脸上带着微笑",
+    "different in shape": "形状不同",
+    "solve the problem": "解决问题",
+    "put down": "放下",
+    "make a promise": "许下承诺",
+    "take one's advice": "听取某人的建议",
+    "tell sb. about sth.": "告诉某人关于某事",
+    "with patience": "耐心地"
+  };
+  if (meanings[item.collocation]) return meanings[item.collocation];
+  const text = (item.explanation || "").trim();
+  if (!text) return "结合原文理解这个固定搭配的中文意思";
+  const match = text.match(/意为“([^”]+)”|表示“([^”]+)”|指“([^”]+)”/);
+  if (match) return match[1] || match[2] || match[3];
+  return text.split(/[。！？]/)[0] || "结合原文理解这个固定搭配的中文意思";
+}
+
+renderCollocationReview = function() {
+  if (!els.collocationReview) return;
+  const items = getLessonCollocations();
+
+  if (!items.length) {
+    els.collocationReview.innerHTML = `
+      <div class="collocation-review-heading">
+        <span>固定搭配整理</span>
+        <strong>本篇无重点固定搭配</strong>
+      </div>
+      <p class="collocation-empty">这一篇更适合把注意力放在上下文线索、逻辑关系和情感走向上。</p>
+    `;
+    return;
+  }
+
+  els.collocationReview.innerHTML = `
+    <div class="collocation-review-heading">
+      <span>固定搭配整理</span>
+      <strong>本篇 ${items.length} 个重点搭配</strong>
+    </div>
+    <div class="collocation-review-list">
+      ${items.map((item) => `
+        <button class="collocation-review-card" type="button" aria-pressed="false">
+          <span class="collocation-card-inner">
+            <span class="collocation-card-face collocation-card-front">
+              <span>第 ${item.id} 题 · 中文意思</span>
+              <strong>${getCollocationMeaning(item)}</strong>
+              <small>点击翻看固定搭配</small>
+            </span>
+            <span class="collocation-card-face collocation-card-back">
+              <span>英文固定搭配</span>
+              <strong>${item.collocation}</strong>
+              ${item.breakdown ? `<small>${item.breakdown}</small>` : ""}
+            </span>
+          </span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  els.collocationReview.querySelectorAll(".collocation-review-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const isFlipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", String(isFlipped));
+    });
+  });
+};
+
 function showVerify() {
   unlockPanel("verify");
   els.verify.classList.remove("hidden");
