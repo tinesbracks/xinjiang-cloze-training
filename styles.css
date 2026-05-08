@@ -931,6 +931,79 @@ h1 {
   line-height: 1.6;
 }
 
+.collocation-review-card {
+  display: block;
+  width: 100%;
+  min-height: 168px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  perspective: 900px;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.collocation-card-inner {
+  position: relative;
+  display: block;
+  min-height: 168px;
+  transform-style: preserve-3d;
+  transition: transform 0.45s ease;
+}
+
+.collocation-review-card.flipped .collocation-card-inner {
+  transform: rotateY(180deg);
+}
+
+.collocation-card-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  backface-visibility: hidden;
+  box-shadow: 0 12px 28px rgba(22, 34, 58, 0.08);
+}
+
+.collocation-card-front {
+  background: linear-gradient(135deg, #fff, #f6f8ff);
+}
+
+.collocation-card-back {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, #5b49d6, #14285d);
+  transform: rotateY(180deg);
+}
+
+.collocation-card-face span,
+.collocation-card-face small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.collocation-card-face strong {
+  color: #25304a;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.collocation-card-back span,
+.collocation-card-back small,
+.collocation-card-back strong {
+  color: #fff;
+}
+
 .read-aloud p {
   margin: 6px 0 0;
   color: var(--muted);
