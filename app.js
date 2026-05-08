@@ -3487,6 +3487,13 @@ function getLessonCollocations() {
     });
 }
 
+function getCollocationMeaning(item) {
+  const text = (item.explanation || "").trim();
+  if (!text) return "根据本题语境理解这个固定搭配的中文含义。";
+  const sentence = text.split(/[。！？]/)[0];
+  return sentence ? `${sentence}。` : text;
+}
+
 function renderCollocationReview() {
   if (!els.collocationReview) return;
   const items = getLessonCollocations();
@@ -3520,6 +3527,54 @@ function renderCollocationReview() {
     </div>
   `;
 }
+
+renderCollocationReview = function() {
+  if (!els.collocationReview) return;
+  const items = getLessonCollocations();
+
+  if (!items.length) {
+    els.collocationReview.innerHTML = `
+      <div class="collocation-review-heading">
+        <span>固定搭配整理</span>
+        <strong>本篇无重点固定搭配</strong>
+      </div>
+      <p class="collocation-empty">这一篇更适合把注意力放在上下文线索、逻辑关系和情感走向上。</p>
+    `;
+    return;
+  }
+
+  els.collocationReview.innerHTML = `
+    <div class="collocation-review-heading">
+      <span>固定搭配整理</span>
+      <strong>本篇 ${items.length} 个重点搭配</strong>
+    </div>
+    <div class="collocation-review-list">
+      ${items.map((item) => `
+        <button class="collocation-review-card" type="button" aria-pressed="false">
+          <span class="collocation-card-inner">
+            <span class="collocation-card-face collocation-card-front">
+              <span>第 ${item.id} 题 · 中文提示</span>
+              <strong>${getCollocationMeaning(item)}</strong>
+              <small>点击翻看英文固定搭配</small>
+            </span>
+            <span class="collocation-card-face collocation-card-back">
+              <span>${item.type}</span>
+              <strong>${item.collocation}</strong>
+              ${item.breakdown ? `<small>${item.breakdown}</small>` : ""}
+            </span>
+          </span>
+        </button>
+      `).join("")}
+    </div>
+  `;
+
+  els.collocationReview.querySelectorAll(".collocation-review-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const isFlipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", String(isFlipped));
+    });
+  });
+};
 
 function showVerify() {
   unlockPanel("verify");
