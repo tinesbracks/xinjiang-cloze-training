@@ -2687,7 +2687,19 @@ const validLoginCodes = [
   "I3W7A5"
 ];
 
-const trialLoginCodes = ["TY24A8"];
+const trialLoginCodes = [
+  "TY24A8",
+  "RXFFK3",
+  "BFXQM7",
+  "5Y2TZR",
+  "J6Q9F8",
+  "VDQVRB",
+  "XRWJQR",
+  "7NPB2G",
+  "RWDW93",
+  "77YZF3",
+  "RUG67N"
+];
 
 const categoryTips = {
   "逻辑推理": "先判断前后句关系，再看选项是否符合因果、转折、替代、并列等逻辑。",
