@@ -2873,6 +2873,17 @@ function getAvailableLessons() {
   return lessonBanks.flatMap((bank) => bank.lessons.filter((item) => item.available));
 }
 
+function hasStoredCollocation(question) {
+  return Boolean(question.collocation && question.collocation !== "无");
+}
+
+function shouldUseCollocationFirst(question) {
+  if (!hasStoredCollocation(question)) return false;
+  const category = question.category || "";
+  const clueFirstTypes = ["上下文复现", "逻辑推理", "常识", "情感态度", "主旨升华", "动作连贯", "下文暗示", "上文总结", "语境推理"];
+  return !clueFirstTypes.some((type) => category.includes(type));
+}
+
 function renderHomeProgress(doneLessons = getDoneLessons()) {
   if (!els.homeProgress) return;
   const lessons = getAvailableLessons();
@@ -3214,7 +3225,7 @@ function renderPosStep(question) {
   els.posFeedback.className = "feedback";
 
   document.querySelector("#posStep").classList.remove("hidden");
-  const hasCollocation = question.collocation && question.collocation !== "无";
+  const hasCollocation = shouldUseCollocationFirst(question);
   const choices = [
     { label: "固定搭配", value: true },
     { label: "没有固定搭配", value: false }
@@ -3243,7 +3254,7 @@ function chooseCollocationStep(question, answer, button) {
   document.querySelectorAll("#posOptions .choice-button").forEach((item) => {
     item.classList.remove("correct", "wrong");
   });
-  const hasCollocation = question.collocation && question.collocation !== "无";
+  const hasCollocation = shouldUseCollocationFirst(question);
   if (answer === hasCollocation) {
     state.posPassed[question.id] = true;
     button.classList.add("correct");
@@ -3259,7 +3270,7 @@ function chooseCollocationStep(question, answer, button) {
 }
 
 function showCollocationStepResult(question) {
-  const hasCollocation = question.collocation && question.collocation !== "无";
+  const hasCollocation = shouldUseCollocationFirst(question);
   els.posFeedback.className = "feedback good";
   if (hasCollocation) {
     els.posFeedback.innerHTML = `
@@ -3269,6 +3280,8 @@ function showCollocationStepResult(question) {
         <p>${question.collocationBreakdown || ""}</p>
       </div>
     `;
+  } else if (hasStoredCollocation(question)) {
+    els.posFeedback.textContent = "判断正确：本题虽然有搭配信息，但原文线索更优先，先按“无固定搭配”进入寻找线索。";
   } else {
     els.posFeedback.textContent = "判断正确：本题没有固定搭配，继续寻找上下文线索。";
   }
@@ -3293,7 +3306,7 @@ function renderToolStep(question) {
 
 function buildToolGuide(question, tool) {
   const base = `<p>${tool.guide}</p>`;
-  if (!question.collocation || question.collocation === "无") return base;
+  if (!shouldUseCollocationFirst(question)) return base;
   return `
     ${base}
     <div class="collocation-box">
