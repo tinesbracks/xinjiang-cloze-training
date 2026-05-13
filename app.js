@@ -3674,7 +3674,6 @@ function renderCollocationReview() {
             <span>第 ${item.id} 题 · ${item.type}</span>
             <strong>${item.collocation}</strong>
           </div>
-          ${item.breakdown ? `<p>${item.breakdown}</p>` : ""}
         </article>
       `).join("")}
     </div>
@@ -3713,7 +3712,6 @@ renderCollocationReview = function() {
             <span class="collocation-card-face collocation-card-back">
               <span>${item.type}</span>
               <strong>${item.collocation}</strong>
-              ${item.breakdown ? `<small>${item.breakdown}</small>` : ""}
             </span>
           </span>
         </button>
