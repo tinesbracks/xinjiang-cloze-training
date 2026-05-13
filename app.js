@@ -2053,6 +2053,141 @@ const silkRoadTrip = {
   ]
 };
 
+const urumqiYuliExpressway = {
+  id: "urumqi-yuli-expressway",
+  title: "乌尉高速：新疆的希望之路",
+  englishTitle: "The Urumqi-Yuli Expressway",
+  level: "8年级",
+  difficulty: "中等",
+  source: "2026乌鲁木齐13中8年级期中考试",
+  tags: ["社会发展", "日常生活", "逻辑推理", "情感态度", "动词辨析"],
+  available: true,
+  firstSentence: 'The Urumqi-Yuli Expressway has become a "road of ____" for people in Xinjiang.',
+  lastSentence: "This shows how the progress in Xinjiang is truly helping local communities improve.",
+  tone: "积极",
+  toneReason: "文章介绍乌尉高速建成后缩短出行时间、便利牧民生活、带来创业机会和更美好的未来，整体充满赞美与希望。",
+  passage: [
+    'The Urumqi-Yuli Expressway(高速公路) has become a "road of ',
+    { blank: 21 },
+    '" for people in Xinjiang. This new highway connects the north and south of the Tianshan Mountains. And it also makes travel much ',
+    { blank: 22 },
+    ". In the past, the drive from Urumqi to Korla(库尔勒) ",
+    { blank: 23 },
+    " about seven hours. Now, it takes just over three. This amazing change has made an old dream ",
+    { blank: 24 },
+    " true. People can enjoy the snow in north Xinjiang in the morning and see the desert in the south at ",
+    { blank: 25 },
+    ". For local herders(牧羊人), life is now more ",
+    { blank: 26 },
+    ". The new expressway helps them move their animals in much less ",
+    { blank: 27 },
+    ". It has also encouraged businessmen like Zhang Xiaoxu to return to their hometowns. After learning the road would pass near his village, he ",
+    { blank: 28 },
+    ' a business there. "When the road opens, chances come." he said. Many villagers have followed him, and their lives are improving. After more than five years of building, this 324-kilometer expressway is now ',
+    { blank: 29 },
+    ". It not only connects places, but also brings people a better ",
+    { blank: 30 },
+    ". This shows how the progress in Xinjiang is truly helping local communities improve."
+  ],
+  questions: [
+    q(21, ["hope", "fear", "sadness", "worry"], "hope", "名词", "情感态度 / 主旨基调", ["new highway", "improve"], "高速公路建成带来便利、机会和发展，全文积极，road of hope 指希望之路。"),
+    q(22, ["slower", "faster", "harder", "easier"], "easier", "形容词副词", "逻辑推理 / 情感态度", ["connects the north and south"], "高速公路连接天山南北，让出行更便利、更容易。", "make travel easier", "动宾补搭配", "动词(makes) + 名词(travel) + 副词(much) + 形容词比较级(easier)"),
+    q(23, ["spent", "cost", "took", "paid"], "took", "动词", "语法 / 词义辨析", ["the drive", "about seven hours", "Now, it takes"], "主语是行程 the drive，表示花费时间用 took；下文 Now, it takes 也形成复现。", "It takes/took time", "固定句型", "物/事件作主语 + take/took + 时间段"),
+    q(24, ["come", "go", "get", "turn"], "come", "动词", "固定搭配", ["an old dream", "true"], "dream come true 是固定表达，表示梦想成真。", "come true", "动词短语", "动词(come) + 形容词(true)"),
+    q(25, ["morning", "noon", "evening", "night"], "night", "名词", "语法 / 逻辑对比", ["in the morning", "at"], "前文 in the morning 与后文 at night 构成时间对比，at night 是固定表达。", "at night", "介词短语", "介词(at) + 名词(night)"),
+    q(26, ["difficult", "boring", "expensive", "convenient"], "convenient", "形容词副词", "情感态度 / 逻辑推理", ["helps them move"], "新高速帮助牧民转移牲畜，生活自然更加便利。"),
+    q(27, ["time", "money", "space", "food"], "time", "名词", "上下文复现 / 逻辑线索", ["from seven hours to three"], "上文强调出行时间从七小时缩短到三小时，此处也指转移动物花更少时间。"),
+    q(28, ["came", "bought", "started", "sold"], "started", "动词", "固定搭配 / 逻辑推理", ["encouraged businessmen", "a business"], "商人看到道路带来的机会后返乡创业，start a business 表示开办生意。", "start a business", "动宾搭配", "动词(start) + 冠词(a) + 名词(business)"),
+    q(29, ["closed", "start", "new", "open"], "open", "形容词", "上下文复现 / 同词复现", ["When the road opens"], "后文台词 When the road opens 直接提示，此处 expressway is now open 表示高速已经通车。"),
+    q(30, ["past", "present", "future", "nature"], "future", "名词", "主旨升华 / 逻辑推理", ["improving", "helping local communities improve"], "高速不仅连接地点，也带来更好的未来，呼应全文积极希望的主旨。", "a better future", "名词搭配", "冠词(a) + 形容词(better) + 名词(future)")
+  ],
+  verifySentences: [
+    { english: 'The Urumqi-Yuli Expressway has become a "road of hope" for people in Xinjiang.', chinese: "乌尉高速已经成为新疆人民的一条“希望之路”。", answers: ["hope"] },
+    { english: "This new highway connects the north and south of the Tianshan Mountains.", chinese: "这条新高速连接了天山南北。" },
+    { english: "And it also makes travel much easier.", chinese: "它也让出行变得容易得多。", answers: ["easier"] },
+    { english: "In the past, the drive from Urumqi to Korla took about seven hours.", chinese: "过去，从乌鲁木齐开车到库尔勒大约需要七个小时。", answers: ["took"] },
+    { english: "Now, it takes just over three.", chinese: "现在，只需要三个多小时。" },
+    { english: "This amazing change has made an old dream come true.", chinese: "这一惊人的变化让一个旧梦想成真了。", answers: ["come"] },
+    { english: "People can enjoy the snow in north Xinjiang in the morning and see the desert in the south at night.", chinese: "人们早上可以在北疆赏雪，晚上可以在南疆看沙漠。", answers: ["night"] },
+    { english: "For local herders, life is now more convenient.", chinese: "对于当地牧民来说，现在生活更加便利了。", answers: ["convenient"] },
+    { english: "The new expressway helps them move their animals in much less time.", chinese: "这条新高速帮助他们用更少的时间转移牲畜。", answers: ["time"] },
+    { english: "It has also encouraged businessmen like Zhang Xiaoxu to return to their hometowns.", chinese: "它也鼓励了像张晓旭这样的商人回到家乡。" },
+    { english: "After learning the road would pass near his village, he started a business there.", chinese: "得知这条路会经过村庄附近后，他在那里开始创业。", answers: ["started"] },
+    { english: '"When the road opens, chances come." he said.', chinese: "他说：“路通了，机会就来了。”" },
+    { english: "Many villagers have followed him, and their lives are improving.", chinese: "许多村民跟随了他，他们的生活正在改善。" },
+    { english: "After more than five years of building, this 324-kilometer expressway is now open.", chinese: "经过五年多的建设，这条324公里长的高速公路现在已经通车。", answers: ["open"] },
+    { english: "It not only connects places, but also brings people a better future.", chinese: "它不仅连接了地方，也给人们带来了更美好的未来。", answers: ["future"] },
+    { english: "This shows how the progress in Xinjiang is truly helping local communities improve.", chinese: "这表明新疆的发展进步确实正在帮助当地社区改善生活。" }
+  ]
+};
+
+const dealWithAnger = {
+  id: "deal-with-anger",
+  title: "正视与管理愤怒",
+  englishTitle: "How to Deal with Anger",
+  level: "初二至初三",
+  difficulty: "中等",
+  source: "新疆师范大学附属中学2026年8年级期中考试试卷",
+  tags: ["情绪管理", "心理健康", "逻辑推理", "常识推断", "情感态度"],
+  available: true,
+  firstSentence: "Anger is a kind of feeling. Many things can make us very angry.",
+  lastSentence: "Don't let your anger control you.",
+  tone: "转折变化",
+  toneReason: "文章先客观列举让人愤怒的负面场景，再转向接纳情绪并用正确方式表达和疏导愤怒，给出积极实用的建议。",
+  passage: [
+    "Anger is a kind of feeling. Many things can make us very angry. When your ",
+    { blank: 21 },
+    " gives you too much homework, when your team ",
+    { blank: 22 },
+    " an important game, when a friend borrows your favourite thing and then breaks it, or when you think your family rules are too ",
+    { blank: 23 },
+    ", you may get really angry. Usually, your body will ",
+    { blank: 24 },
+    " you when you are angry. For example, you breathe faster, your face turns red and you may want to ",
+    { blank: 25 },
+    " your book, break something or hit someone. But sometimes, you hide your anger. However, if you do this, you may get a ",
+    { blank: 26 },
+    " or your stomach may hurt. In fact, it's not good to hide your anger and it's ",
+    { blank: 27 },
+    " for you to get angry sometimes. But anger must be let out in the right way, without hurting others or ",
+    { blank: 28 },
+    ". When you get angry, you can talk about it with others such as parents, friends or teachers. It's ",
+    { blank: 29 },
+    ". You can also do other things when you start to feel angry. Count from 1 to 100; go for a bike ride; ",
+    { blank: 30 },
+    " good things and so on. Remember how you act when you are angry can make everything better or worse. Don't let your anger control you."
+  ],
+  questions: [
+    q(21, ["mother", "classmate", "friend", "teacher"], "teacher", "名词", "常识推断 / 逻辑推理", ["gives you too much homework"], "结合校园生活常识，给学生布置很多家庭作业的人通常是老师。"),
+    q(22, ["lends", "controls", "loses", "borrows"], "loses", "动词", "情感态度 / 逻辑推理", ["make us very angry", "an important game"], "本段列举让人愤怒的负面事件，队伍输掉重要比赛会让人非常生气。", "lose a game", "动宾搭配", "动词(lose) + 名词词组(a game)"),
+    q(23, ["slow", "kind", "impossible", "strict"], "strict", "形容词副词", "常识推断 / 语境词汇辨析", ["family rules", "get really angry"], "家庭规则如果让人愤怒，通常是因为过于严格。", "strict rules", "形容词搭配", "形容词(strict) + 名词(rules)"),
+    q(24, ["tell", "know", "serve", "train"], "tell", "动词", "逻辑推理 / 下文暗示", ["breathe faster", "face turns red"], "呼吸加快、脸变红是身体通过生理反应告诉你正在生气。"),
+    q(25, ["throw away", "put away", "give away", "leave away"], "throw away", "动词短语", "上下文复现 / 并列语义场", ["break something", "hit someone"], "or 连接破坏性动作，和砸东西、打人并列，指把书扔掉或摔掉。", "throw away", "动词短语", "动词(throw) + 副词(away)"),
+    q(26, ["rest", "headache", "nosebleed", "cold"], "headache", "名词", "上下文复现 / 常识推断", ["your stomach may hurt"], "or 后面是胃痛，前面也应是身体不适症状，get a headache 表示头痛。", "get a headache", "动宾搭配", "动词(get) + 冠词(a) + 名词(headache)"),
+    q(27, ["unfair", "comfortable", "normal", "necessary"], "normal", "形容词副词", "主旨基调 / 逻辑推理", ["Anger is a kind of feeling"], "愤怒是一种情绪，因此有时生气是正常的，作者在引导学生接纳情绪。", "It's normal for sb. to do sth.", "固定句型", "形式主语(it's) + 形容词(normal) + for sb. + 不定式(to do)"),
+    q(28, ["yourself", "myself", "itself", "themselves"], "yourself", "代词", "逻辑对比 / 语法", ["without hurting others or"], "others 与 yourself 构成对比，既不伤害别人，也不伤害自己；全文用第二人称 you。"),
+    q(29, ["helpful", "careful", "thankful", "hopeful"], "helpful", "形容词副词", "情感态度 / 逻辑推理", ["talk about it with others"], "和父母、朋友或老师谈论愤怒是一种积极有效的疏导方式，所以是有帮助的。"),
+    q(30, ["care about", "think about", "worry about", "learn about"], "think about", "动词短语", "动作逻辑 / 情感态度", ["good things", "count from 1 to 100", "go for a bike ride"], "数数、骑车、想美好的事情都是转移注意力的方法，think about good things 最符合。", "think about", "动词短语", "动词(think) + 介词(about)")
+  ],
+  verifySentences: [
+    { english: "Anger is a kind of feeling.", chinese: "愤怒是一种情绪。" },
+    { english: "Many things can make us very angry.", chinese: "很多事情都会让我们非常生气。" },
+    { english: "When your teacher gives you too much homework, when your team loses an important game, when a friend borrows your favourite thing and then breaks it, or when you think your family rules are too strict, you may get really angry.", chinese: "当老师给你布置太多作业，当你的队伍输掉一场重要比赛，当朋友借走你最喜欢的东西然后弄坏它，或者当你觉得家规太严格时，你可能会非常生气。", answers: ["teacher", "loses", "strict"] },
+    { english: "Usually, your body will tell you when you are angry.", chinese: "通常，当你生气时，你的身体会告诉你。", answers: ["tell"] },
+    { english: "For example, you breathe faster, your face turns red and you may want to throw away your book, break something or hit someone.", chinese: "例如，你呼吸变快，脸变红，你可能想扔掉书、砸东西或者打人。", answers: ["throw away"] },
+    { english: "But sometimes, you hide your anger.", chinese: "但有时候，你会隐藏自己的愤怒。" },
+    { english: "However, if you do this, you may get a headache or your stomach may hurt.", chinese: "然而，如果你这样做，你可能会头痛，或者胃会疼。", answers: ["headache"] },
+    { english: "In fact, it's not good to hide your anger and it's normal for you to get angry sometimes.", chinese: "事实上，隐藏愤怒不好，而且你有时候生气是正常的。", answers: ["normal"] },
+    { english: "But anger must be let out in the right way, without hurting others or yourself.", chinese: "但是愤怒必须以正确的方式释放出来，不能伤害别人或自己。", answers: ["yourself"] },
+    { english: "When you get angry, you can talk about it with others such as parents, friends or teachers.", chinese: "当你生气时，你可以和别人谈谈，比如父母、朋友或老师。" },
+    { english: "It's helpful.", chinese: "这是有帮助的。", answers: ["helpful"] },
+    { english: "You can also do other things when you start to feel angry.", chinese: "当你开始感到生气时，你也可以做其他事情。" },
+    { english: "Count from 1 to 100; go for a bike ride; think about good things and so on.", chinese: "从1数到100；去骑自行车；想想美好的事情等等。", answers: ["think about"] },
+    { english: "Remember how you act when you are angry can make everything better or worse.", chinese: "记住，你生气时的行为会让一切变得更好或更糟。" },
+    { english: "Don't let your anger control you.", chinese: "不要让愤怒控制你。" }
+  ]
+};
+
 const firstFishingTrip = {
   id: "first-fishing-trip",
   title: "难忘的第一次钓鱼",
@@ -2591,7 +2726,9 @@ const lessonBanks = [
       momsRules,
       favoriteBasketball,
       peterChineseFood,
-      silkRoadTrip
+      silkRoadTrip,
+      urumqiYuliExpressway,
+      dealWithAnger
     ]
   },
   {
@@ -2785,6 +2922,9 @@ const els = {
   progressBar: document.querySelector("#progressBar"),
   resetBtn: document.querySelector("#resetBtn"),
   backHomeBtn: document.querySelector("#backHomeBtn"),
+  printReportBtn: document.querySelector("#printReportBtn"),
+  printArea: document.querySelector("#printArea"),
+  translationOptions: document.querySelector("#translationOptions"),
   resultHomeBtn: document.querySelector("#resultHomeBtn"),
   notebookSummary: document.querySelector("#notebookSummary"),
   notebookGroups: document.querySelector("#notebookGroups")
@@ -3852,50 +3992,21 @@ function bindStaticEvents() {
 
   els.backHomeBtn.addEventListener("click", enterHome);
   els.resultHomeBtn.addEventListener("click", enterHome);
+  els.printReportBtn?.addEventListener("click", printStudyReport);
 }
 
 function playSentence(index) {
-  if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-    els.readStatus.textContent = "当前浏览器不支持朗读功能";
-    return;
-  }
-
   state.readIndex = index;
   const sentenceItem = state.readSentences[index];
   if (!sentenceItem) return;
 
-  stopSpeech();
   highlightReadSentence(index);
   showSentenceMeaning(index);
-  els.readStatus.textContent = `准备朗读第 ${index + 1} 句`;
-
-  const utterance = new SpeechSynthesisUtterance(sentenceItem.english);
-  utterance.lang = "en-US";
-  utterance.rate = 0.86;
-  utterance.pitch = 1;
-  const englishVoice = getEnglishVoice();
-  if (englishVoice) {
-    utterance.voice = englishVoice;
-  }
-  utterance.onstart = () => {
-    els.readStatus.textContent = `正在朗读第 ${index + 1} 句`;
-  };
-  utterance.onend = () => {
-    els.readStatus.textContent = `已朗读第 ${index + 1} 句`;
-  };
-  utterance.onerror = () => {
-    els.readStatus.textContent = "朗读被浏览器中断：请确认设备音量已打开，或换手机/平板浏览器测试";
-  };
-
-  window.speechSynthesis.resume();
-  window.setTimeout(() => {
-    window.speechSynthesis.speak(utterance);
-  }, 80);
+  els.readStatus.textContent = `已显示第 ${index + 1} 句中文意思`;
 }
 
 function getEnglishVoice() {
-  const voices = window.speechSynthesis.getVoices();
-  return voices.find((voice) => voice.lang === "en-US") || voices.find((voice) => voice.lang.startsWith("en")) || null;
+  return null;
 }
 
 function highlightReadSentence(index) {
@@ -3925,17 +4036,974 @@ function showSentenceMeaning(index) {
 }
 
 function resetSentenceAudio() {
-  stopSpeech();
   state.readIndex = 0;
-  els.readStatus.textContent = "点击任意英文句子即可朗读";
+  els.readStatus.textContent = "精读翻译台";
   highlightReadSentence(-1);
   showSentenceMeaning(null);
 }
 
 function stopSpeech() {
-  if ("speechSynthesis" in window) {
-    window.speechSynthesis.cancel();
+  return null;
+}
+
+function cleanWord(word) {
+  return String(word || "").toLowerCase().replace(/^[^a-z]+|[^a-z]+$/g, "");
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function normalizeTranslationKey(value) {
+  return String(value || "").toLowerCase().trim().replace(/\s+/g, " ");
+}
+
+const translationMap = {
+  a: "一个；一只；一件",
+  an: "一个；一只；一件",
+  the: "这个；那个；表示特指",
+  i: "我",
+  me: "我；宾格",
+  my: "我的",
+  mine: "我的；名词性物主代词",
+  you: "你；你们",
+  your: "你的；你们的",
+  he: "他",
+  him: "他；宾格",
+  his: "他的",
+  she: "她",
+  her: "她；她的",
+  hers: "她的；名词性物主代词",
+  it: "它",
+  its: "它的",
+  they: "他们；它们",
+  them: "他们；它们；宾格",
+  their: "他们的；它们的",
+  theirs: "他们的；名词性物主代词",
+  we: "我们",
+  us: "我们；宾格",
+  our: "我们的",
+  ours: "我们的；名词性物主代词",
+  all: "全部；所有",
+  both: "两者都",
+  none: "一个也没有",
+  no: "没有；不",
+  not: "不；没有",
+  never: "从不",
+  always: "总是",
+  often: "经常",
+  sometimes: "有时",
+  usually: "通常",
+  hardly: "几乎不",
+  only: "仅仅；唯一的",
+  just: "只是；刚刚",
+  also: "也；而且",
+  too: "也；太",
+  either: "也不；两者之一",
+  still: "仍然",
+  again: "再次",
+  before: "在……以前",
+  after: "在……以后",
+  when: "当……时候",
+  while: "当……时候；然而",
+  if: "如果；是否",
+  whether: "是否",
+  because: "因为",
+  so: "所以；如此",
+  but: "但是",
+  and: "和；并且",
+  or: "或者；否则",
+  although: "虽然；尽管",
+  though: "虽然；尽管",
+  however: "然而",
+  instead: "相反；而是",
+  besides: "此外",
+  unless: "除非",
+  what: "什么；多么",
+  why: "为什么",
+  how: "怎样；如何",
+  where: "哪里",
+  who: "谁",
+  which: "哪一个；哪个",
+  can: "能够；可以",
+  could: "能够；可以；can的过去式",
+  "couldn't": "不能；无法",
+  must: "必须",
+  "mustn't": "禁止；不准",
+  may: "可能；可以",
+  might: "可能",
+  should: "应该",
+  would: "将会；会",
+  do: "做",
+  does: "做；第三人称单数",
+  did: "做了",
+  done: "完成的；做完的",
+  doing: "正在做；动名词形式",
+  be: "是；成为",
+  is: "是",
+  are: "是",
+  was: "是；过去式",
+  were: "是；过去式",
+  been: "曾经是；过去分词",
+  become: "成为",
+  became: "变成；成为",
+  get: "得到；到达；变得",
+  got: "得到；变得；过去式",
+  go: "去",
+  went: "去了",
+  gone: "离开；过去分词",
+  come: "来",
+  came: "来了",
+  make: "制作；使得",
+  made: "制作了；使得",
+  take: "拿；带；花费",
+  took: "拿了；带了；花费了",
+  taken: "带去；拿走；过去分词",
+  give: "给",
+  gave: "给了",
+  given: "给过；过去分词",
+  keep: "保持；保留",
+  kept: "保持了；保留了",
+  let: "让",
+  like: "喜欢；像",
+  love: "爱；喜爱",
+  hate: "讨厌",
+  enjoy: "享受；喜欢",
+  look: "看",
+  see: "看见；看到",
+  watch: "观看",
+  listen: "听",
+  hear: "听见",
+  heard: "听见了",
+  say: "说",
+  said: "说了",
+  tell: "告诉",
+  told: "告诉了",
+  speak: "说话",
+  spoke: "说了",
+  talk: "谈话；说话",
+  ask: "问；请求",
+  asked: "问了；请求了",
+  answer: "答案；回答",
+  replied: "回复了",
+  explain: "解释",
+  explained: "解释了",
+  understand: "理解；明白",
+  understood: "理解了；明白了",
+  realize: "意识到",
+  realized: "意识到",
+  know: "知道",
+  knew: "知道；过去式",
+  find: "找到；发现",
+  found: "找到；发现了",
+  search: "搜索；寻找",
+  discover: "发现",
+  check: "检查",
+  checked: "检查了",
+  choose: "选择",
+  chose: "选择了",
+  decide: "决定",
+  decided: "决定了",
+  try: "尝试",
+  tried: "尝试了",
+  fail: "失败",
+  failed: "失败了",
+  succeed: "成功",
+  success: "成功",
+  grow: "成长；生长",
+  grew: "成长了；生长了",
+  growth: "成长；生长",
+  plant: "植物；种植",
+  seed: "种子",
+  tree: "树",
+  flower: "花",
+  flowers: "花；复数",
+  leaves: "叶子；复数",
+  grass: "草",
+  forest: "森林",
+  river: "河流",
+  sea: "海",
+  sky: "天空",
+  sun: "太阳",
+  sunlight: "阳光",
+  rain: "雨",
+  snow: "雪",
+  wind: "风",
+  storm: "暴风雨",
+  thunder: "雷声",
+  lightning: "闪电",
+  rainbow: "彩虹",
+  color: "颜色",
+  colors: "颜色；复数",
+  colorful: "彩色的",
+  red: "红色",
+  green: "绿色",
+  blue: "蓝色",
+  indigo: "青色；靛蓝色",
+  life: "生命；生活",
+  peace: "和平",
+  hope: "希望",
+  courage: "勇气",
+  brave: "勇敢的",
+  silence: "沉默；安静",
+  thought: "思想；想法",
+  thinking: "思考",
+  importance: "重要性",
+  important: "重要的",
+  beautiful: "美丽的",
+  beauty: "美；美丽",
+  good: "好的",
+  better: "更好的",
+  best: "最好的",
+  bad: "坏的",
+  big: "大的",
+  bigger: "更大的",
+  small: "小的",
+  smaller: "更小的",
+  tall: "高的",
+  short: "短的；矮的",
+  long: "长的",
+  wide: "宽的",
+  thin: "薄的；瘦的",
+  heavy: "重的",
+  light: "轻的；光",
+  strong: "强壮的；强的",
+  stronger: "更强的",
+  weak: "虚弱的",
+  hard: "困难的；努力地",
+  difficult: "困难的",
+  easy: "容易的",
+  simple: "简单的",
+  special: "特别的",
+  ordinary: "普通的",
+  different: "不同的",
+  same: "相同的",
+  similar: "相似的",
+  safe: "安全的",
+  safer: "更安全的",
+  dangerous: "危险的",
+  careful: "小心的",
+  carefully: "小心地；认真地",
+  patient: "耐心的",
+  patience: "耐心",
+  patiently: "耐心地",
+  quick: "快速的",
+  quickly: "快速地",
+  slow: "慢的",
+  slowly: "慢慢地",
+  sudden: "突然的",
+  suddenly: "突然地",
+  final: "最后的",
+  finally: "最后；终于",
+  happy: "开心的",
+  happily: "开心地",
+  glad: "高兴的",
+  excited: "兴奋的",
+  exciting: "令人兴奋的",
+  sad: "伤心的",
+  sadly: "伤心地",
+  upset: "沮丧的；难过的",
+  angry: "生气的",
+  angrily: "生气地",
+  quiet: "安静的",
+  quietly: "安静地",
+  thankful: "感激的",
+  grateful: "感激的",
+  warm: "温暖的",
+  warmth: "温暖",
+  kind: "善良的",
+  kindness: "善意；善良",
+  friendly: "友好的",
+  fun: "乐趣；有趣的",
+  joy: "快乐",
+  anger: "愤怒",
+  angry: "生气的",
+  feeling: "感觉；情绪",
+  feelings: "感觉；情绪；复数",
+  control: "控制",
+  controls: "控制；第三人称单数",
+  hide: "隐藏",
+  hurt: "疼痛；伤害",
+  hurting: "伤害",
+  headache: "头痛",
+  stomach: "胃；肚子",
+  breathe: "呼吸",
+  faster: "更快地；更快的",
+  red: "红色的；红色",
+  hit: "打；击中",
+  homework: "家庭作业",
+  classmate: "同班同学",
+  strict: "严格的",
+  normal: "正常的",
+  helpful: "有帮助的",
+  careful: "小心的；认真的",
+  hopeful: "有希望的",
+  unfair: "不公平的",
+  comfortable: "舒服的",
+  necessary: "必要的",
+  favourite: "最喜欢的",
+  favorite: "最喜欢的",
+  valuable: "宝贵的；有价值的",
+  boring: "无聊的",
+  tired: "疲惫的",
+  nervous: "紧张的",
+  surprised: "惊讶的",
+  proud: "自豪的",
+  proudly: "自豪地",
+  calm: "平静的",
+  calmly: "平静地",
+  hopeless: "绝望的",
+  dream: "梦想；梦",
+  secret: "秘密",
+  advice: "建议",
+  problem: "问题",
+  progress: "进步",
+  result: "结果",
+  reason: "原因",
+  truth: "事实；真相",
+  value: "价值",
+  memory: "记忆",
+  memories: "记忆；复数",
+  story: "故事",
+  stories: "故事；复数",
+  sight: "景象；风景",
+  sights: "景象；风景；复数",
+  rule: "规则",
+  rules: "规则；复数",
+  habit: "习惯",
+  hobby: "爱好",
+  gift: "礼物",
+  present: "礼物；现在",
+  message: "信息；留言",
+  phone: "手机；电话",
+  app: "应用程序",
+  map: "地图",
+  language: "语言",
+  word: "单词；话语",
+  words: "单词；话语；复数",
+  sentence: "句子",
+  option: "选项",
+  question: "问题；题目",
+  clue: "线索",
+  paper: "纸；试卷",
+  bridge: "桥",
+  book: "书",
+  books: "书；复数",
+  note: "便条；笔记",
+  ticket: "票",
+  tickets: "票；复数",
+  supermarket: "超市",
+  school: "学校",
+  class: "班级；课堂",
+  teacher: "老师",
+  student: "学生",
+  classmates: "同学们",
+  friend: "朋友",
+  friends: "朋友；复数",
+  family: "家庭；家人",
+  mother: "母亲",
+  mom: "妈妈",
+  father: "父亲",
+  dad: "爸爸",
+  grandma: "奶奶；外婆",
+  grandpa: "爷爷；外公",
+  uncle: "叔叔；舅舅",
+  sister: "姐妹",
+  brother: "兄弟",
+  son: "儿子",
+  daughter: "女儿",
+  child: "孩子",
+  children: "孩子们",
+  baby: "婴儿",
+  deer: "鹿",
+  bird: "鸟",
+  birds: "鸟；复数",
+  rabbit: "兔子",
+  rabbits: "兔子；复数",
+  butterfly: "蝴蝶",
+  animal: "动物",
+  animals: "动物；复数",
+  bee: "蜜蜂",
+  bees: "蜜蜂；复数",
+  honey: "蜂蜜",
+  food: "食物",
+  juice: "果汁",
+  cake: "蛋糕",
+  bread: "面包",
+  cookie: "饼干",
+  cookies: "饼干；复数",
+  noodle: "面条",
+  noodles: "面条；复数",
+  candy: "糖果",
+  candies: "糖果；复数",
+  fruit: "水果",
+  fruits: "水果；复数",
+  meal: "餐；饭",
+  meals: "餐；饭；复数",
+  cup: "杯子",
+  cups: "杯子；复数",
+  basket: "篮子",
+  picnic: "野餐",
+  beach: "海滩",
+  birthday: "生日",
+  game: "游戏；比赛",
+  games: "游戏；比赛；复数",
+  sport: "运动",
+  sports: "运动；复数",
+  basketball: "篮球",
+  team: "队伍",
+  teamwork: "团队合作",
+  coach: "教练",
+  player: "运动员",
+  match: "比赛",
+  matches: "比赛；复数",
+  score: "得分",
+  win: "赢",
+  lose: "输；丢失",
+  lost: "失去；迷路的；失败的",
+  fishing: "钓鱼",
+  fish: "鱼",
+  hook: "鱼钩",
+  lake: "湖",
+  trip: "旅行",
+  trips: "旅行；复数",
+  journey: "旅程",
+  journeys: "旅程；复数",
+  travel: "旅行",
+  travels: "旅行；复数",
+  place: "地方",
+  home: "家",
+  house: "房子",
+  room: "房间",
+  door: "门",
+  car: "汽车",
+  bus: "公共汽车",
+  road: "道路",
+  city: "城市",
+  country: "国家；乡村",
+  world: "世界",
+  xinjiang: "新疆",
+  urumqi: "乌鲁木齐",
+  yuli: "尉犁",
+  korla: "库尔勒",
+  tianshan: "天山",
+  expressway: "高速公路",
+  highway: "公路；高速公路",
+  road: "道路",
+  roads: "道路；复数",
+  north: "北方；北部",
+  south: "南方；南部",
+  mountain: "山",
+  mountains: "山；复数",
+  desert: "沙漠",
+  herder: "牧民",
+  herders: "牧民；复数",
+  animal: "动物",
+  animals: "动物；复数",
+  businessman: "商人",
+  businessmen: "商人；复数",
+  village: "村庄",
+  villagers: "村民；复数",
+  hometown: "家乡",
+  hometowns: "家乡；复数",
+  chance: "机会",
+  chances: "机会；复数",
+  community: "社区",
+  communities: "社区；复数",
+  local: "当地的",
+  truly: "真正地",
+  progress: "进步；发展",
+  future: "未来",
+  convenient: "方便的；便利的",
+  culture: "文化",
+  history: "历史",
+  symbol: "象征",
+  palace: "宫殿",
+  prison: "监狱",
+  market: "市场",
+  job: "工作",
+  jobs: "工作；复数",
+  business: "生意；企业",
+  money: "钱",
+  gold: "黄金",
+  silver: "白银",
+  reward: "奖励",
+  promise: "承诺",
+  promised: "承诺了",
+  agree: "同意",
+  agreed: "同意了",
+  refuse: "拒绝",
+  refused: "拒绝了",
+  help: "帮助",
+  helped: "帮助了",
+  support: "支持",
+  supported: "支持了",
+  encourage: "鼓励",
+  encouraged: "鼓励了",
+  remind: "提醒；使想起",
+  reminded: "提醒了；使想起",
+  translate: "翻译",
+  translated: "翻译了",
+  solve: "解决",
+  solved: "解决了",
+  improve: "改善；提高",
+  improved: "改善了；提高了",
+  develop: "发展；培养",
+  developed: "发展了；培养了",
+  change: "改变",
+  changed: "改变了",
+  carry: "携带；搬运",
+  carried: "携带了；搬运了",
+  jump: "跳",
+  jumped: "跳了",
+  gather: "聚集",
+  gathered: "聚集了",
+  lead: "带领",
+  led: "带领了",
+  follow: "跟随；遵守",
+  followed: "跟随了；遵守了",
+  show: "展示；出示",
+  showed: "展示了；出示了",
+  share: "分享",
+  shared: "分享了",
+  spend: "花费",
+  spent: "花费了",
+  pay: "支付",
+  paid: "支付了",
+  buy: "买",
+  bought: "买了",
+  sell: "卖",
+  ordered: "点餐；命令了",
+  served: "服务；端上",
+  fill: "装满",
+  filled: "装满了",
+  pour: "倒；倾泻",
+  poured: "倒了；倾泻了",
+  water: "水；给……浇水",
+  watered: "浇水了",
+  cover: "覆盖",
+  covered: "覆盖了",
+  protect: "保护",
+  protected: "保护了",
+  clean: "干净的；打扫",
+  cleaned: "打扫了",
+  turn: "转动；变得",
+  turned: "转动了；变得",
+  open: "打开；开放的",
+  opened: "打开了",
+  close: "关闭；靠近的",
+  closed: "关闭的；关上了",
+  start: "开始",
+  started: "开始了",
+  stop: "停止",
+  stopped: "停止了",
+  finish: "完成",
+  finished: "完成了",
+  continue: "继续",
+  continued: "继续了",
+  wait: "等待",
+  waited: "等待了",
+  need: "需要",
+  needed: "需要了",
+  want: "想要",
+  wanted: "想要了",
+  hope: "希望",
+  hoped: "希望了",
+  learn: "学习",
+  learned: "学习了",
+  study: "学习",
+  studied: "学习了",
+  practice: "练习",
+  practiced: "练习了",
+  read: "阅读；读",
+  write: "写",
+  wrote: "写了",
+  draw: "画",
+  drew: "画了",
+  laugh: "笑",
+  laughed: "笑了",
+  cry: "哭；喊叫",
+  cried: "哭了；喊叫了",
+  shout: "喊叫",
+  shouted: "喊叫了",
+  smile: "微笑",
+  smiled: "微笑了",
+  "take up": "开始从事；培养",
+  "give up": "放弃",
+  "put up": "张贴；搭建；挂起",
+  "clean up": "清理",
+  "look after": "照顾",
+  "deal with": "处理",
+  "search for": "寻找",
+  "find out": "查明；弄清楚",
+  "turn down": "拒绝；调低",
+  "put off": "推迟",
+  "hand in": "上交",
+  "fall out": "掉出来",
+  "jump into": "跳进",
+  "go through": "经历；熬过",
+  "calm down": "使平静下来",
+  "spread out": "铺开",
+  "pass away": "去世",
+  "take in": "吸入；吸收",
+  "take off": "脱下；起飞",
+  "turn off": "关掉",
+  "all of a sudden": "突然",
+  "after all": "毕竟",
+  "right away": "立刻；马上",
+  "at times": "有时"
+};
+
+const onlineTranslationCache = new Map();
+
+async function translateOnline(text) {
+  const rawText = String(text || "").trim();
+  if (!rawText) return "";
+  const cacheKey = normalizeTranslationKey(rawText);
+  if (onlineTranslationCache.has(cacheKey)) return onlineTranslationCache.get(cacheKey);
+
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 5000);
+  try {
+    const response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(rawText)}&langpair=en|zh-CN`,
+      { signal: controller.signal }
+    );
+    const data = await response.json();
+    const translated = data?.responseData?.translatedText || "";
+    const cleaned = translated.replace(/&#39;/g, "'").trim();
+    if (cleaned && normalizeTranslationKey(cleaned) !== cacheKey) {
+      onlineTranslationCache.set(cacheKey, cleaned);
+      return cleaned;
+    }
+  } catch (error) {
+    // Network translation is a convenience layer; keep the local experience usable if it fails.
+  } finally {
+    window.clearTimeout(timeoutId);
   }
+  return "";
+}
+
+function getWordMeaning(word) {
+  const key = cleanWord(word);
+  if (translationMap[key]) return translationMap[key];
+
+  for (const question of lesson.questions) {
+    const option = question.options.find((item) => cleanWord(item) === key);
+    if (option) return getOptionMeaning(question, option);
+  }
+  return "暂未收录精确词义，可双击本句查看整句中文，再结合上下文理解。";
+}
+
+function getRawTranslation(value) {
+  const phraseKey = normalizeTranslationKey(value);
+  const wordKey = cleanWord(value);
+  return translationMap[phraseKey] || translationMap[wordKey] || "暂未收录精确词义，可结合整句中文和上下文理解。";
+}
+
+async function resolveWordMeaning(word) {
+  const key = cleanWord(word);
+  if (translationMap[key]) return translationMap[key];
+
+  for (const question of lesson.questions) {
+    const option = question.options.find((item) => cleanWord(item) === key);
+    if (option) return resolveOptionMeaning(question, option);
+  }
+
+  const online = await translateOnline(word);
+  return online || "在线翻译暂时不可用，可双击本句查看整句中文。";
+}
+
+function getOptionMeaning(question, option) {
+  const optionKey = normalizeTranslationKey(option);
+  const optionMeaning = translationMap[optionKey] || getRawTranslation(option);
+  if (option === question.answer && question.collocation && question.collocation !== "无") {
+    return `${option}：${optionMeaning}。固定搭配：${question.collocation}，意思是“${getCollocationMeaning({
+      collocation: question.collocation,
+      explanation: question.explanation
+    })}”。`;
+  }
+  return `${option}：${optionMeaning}`;
+}
+
+async function resolveOptionMeaning(question, option) {
+  const optionKey = normalizeTranslationKey(option);
+  const localMeaning = translationMap[optionKey] || translationMap[cleanWord(option)];
+  const optionMeaning = localMeaning || await translateOnline(option) || "在线翻译暂时不可用";
+  if (question.collocation && question.collocation !== "无") {
+    const collocationMeaning =
+      translationMap[normalizeTranslationKey(question.collocation)] ||
+      getCollocationMeaning({
+        collocation: question.collocation,
+        explanation: question.explanation
+      }) ||
+      await translateOnline(question.collocation);
+    return `${option}：${optionMeaning}。固定搭配：${question.collocation}，意思是“${collocationMeaning}”。`;
+  }
+  return `${option}：${optionMeaning}`;
+}
+
+function showTranslationCard(title, body) {
+  els.sentenceMeaning.innerHTML = `<strong>${title}</strong><p>${body}</p>`;
+}
+
+renderFilledPassage = function() {
+  els.filledPassage.innerHTML = "";
+  state.readSentences = lesson.verifySentences;
+  state.readSentences.forEach((sentenceItem, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "read-sentence";
+    button.dataset.index = String(index);
+    renderSentenceWords(button, sentenceItem);
+    button.addEventListener("dblclick", () => showSentenceMeaning(index));
+    els.filledPassage.appendChild(button);
+    els.filledPassage.append(" ");
+  });
+  renderTranslationOptions();
+  showSentenceMeaning(null);
+};
+
+function renderSentenceWords(container, sentenceItem) {
+  const answerWords = new Set((sentenceItem.answers || []).flatMap((answer) => String(answer).split(/\s+/).map(cleanWord)));
+  String(sentenceItem.english).split(/([A-Za-z][A-Za-z'’-]*)/g).forEach((part) => {
+    if (/^[A-Za-z][A-Za-z'’-]*$/.test(part)) {
+      const token = document.createElement("span");
+      token.className = "word-token";
+      if (answerWords.has(cleanWord(part))) token.classList.add("filled-answer", "answer-blue");
+      token.textContent = part;
+      token.addEventListener("click", (event) => {
+        event.stopPropagation();
+        showTranslationCard(`单词：${part}`, "正在翻译...");
+        resolveWordMeaning(part).then((meaning) => {
+          showTranslationCard(`单词：${part}`, meaning);
+        });
+      });
+      container.appendChild(token);
+    } else {
+      container.append(part);
+    }
+  });
+}
+
+function renderTranslationOptions() {
+  if (!els.translationOptions) return;
+  els.translationOptions.innerHTML = `
+    <h4>题目选项翻译</h4>
+    <div class="translation-option-grid">
+      ${lesson.questions.map((question) => `
+        <div class="translation-option-card">
+          <strong>第 ${question.id} 题</strong>
+          <div>
+            ${question.options.map((option, index) => `
+              <button type="button" class="translation-option-pill" data-q="${question.id}" data-option="${escapeHtml(option)}">
+                ${String.fromCharCode(65 + index)}. ${option}
+              </button>
+            `).join("")}
+          </div>
+        </div>
+      `).join("")}
+    </div>
+  `;
+  els.translationOptions.querySelectorAll(".translation-option-pill").forEach((button) => {
+    button.addEventListener("click", () => {
+      const question = findQuestion(Number(button.dataset.q));
+      showTranslationCard(`第 ${question.id} 题选项：${button.dataset.option}`, "正在翻译...");
+      resolveOptionMeaning(question, button.dataset.option).then((meaning) => {
+        showTranslationCard(`第 ${question.id} 题选项：${button.dataset.option}`, meaning);
+      });
+    });
+  });
+}
+
+showSentenceMeaning = function(index) {
+  state.meaningIndex = index;
+  document.querySelectorAll(".read-sentence").forEach((sentence) => {
+    sentence.classList.toggle("meaning-active", Number(sentence.dataset.index) === index);
+  });
+
+  if (index === null || index === undefined) {
+    state.meaningIndex = null;
+    showTranslationCard("翻译", "单击单词或选项查看意思；双击英文句子查看整句中文。");
+    return;
+  }
+
+  const sentenceItem = state.readSentences[index];
+  showTranslationCard(`第 ${index + 1} 句句意`, sentenceItem.chinese);
+};
+
+resetSentenceAudio = function() {
+  stopSpeech();
+  state.readIndex = 0;
+  if (els.readStatus) els.readStatus.textContent = "精读翻译台";
+  highlightReadSentence(-1);
+  showSentenceMeaning(null);
+};
+
+function buildFilledPassageText() {
+  return lesson.verifySentences.map((item) => item.english).join(" ");
+}
+
+function buildExamPassageHtml() {
+  return lesson.passage.map((part) => {
+    if (typeof part === "string") {
+      return escapeHtml(part);
+    }
+    if (part && part.blank) {
+      return `<span class="print-blank">${part.blank}. ________</span>`;
+    }
+    return "";
+  }).join("");
+}
+
+function printStudyReport() {
+  const paperHtml = `
+    <div class="print-paper">
+      <div class="print-paper-head">
+        <h1>${escapeHtml(lesson.title)}</h1>
+        <h2>${escapeHtml(lesson.englishTitle)}</h2>
+        ${lesson.source ? `<p>来源：${escapeHtml(lesson.source)}</p>` : ""}
+        <div class="print-student-line">
+          <span>姓名：____________</span>
+          <span>用时：____________</span>
+          <span>得分：____________</span>
+        </div>
+      </div>
+      <h3>完形填空</h3>
+      <p class="print-instruction">阅读下面短文，掌握其大意，然后从每题所给的选项中选出最佳答案。</p>
+      <div class="print-passage">${buildExamPassageHtml()}</div>
+      <h3>题目选项</h3>
+      <div class="print-options">
+    ${lesson.questions.map((question) => `
+      <div class="print-question">
+        <strong>${question.id}.</strong>
+        <p>${question.options.map((option, index) => `${String.fromCharCode(65 + index)}. ${escapeHtml(option)}`).join("    ")}</p>
+      </div>
+    `).join("")}
+      </div>
+    </div>
+  `;
+  els.printArea.innerHTML = paperHtml;
+  printPaperOnly(paperHtml);
+}
+
+function getPrintStyles() {
+  return `
+    @page { margin: 8mm 9mm; }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      color: #111;
+      background: #fff;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      font-size: 11.5px;
+      line-height: 1.45;
+    }
+    .print-paper { margin: 0; }
+    .print-paper-head {
+      text-align: center;
+      border-bottom: 2px solid #111;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+    }
+    h1, h2, h3 {
+      color: #111;
+      page-break-after: avoid;
+      margin: 0 0 4px;
+    }
+    h1 { font-size: 18px; line-height: 1.25; }
+    h2 { font-size: 12px; font-weight: 600; line-height: 1.25; }
+    h3 {
+      font-size: 12.5px;
+      margin-top: 8px;
+      border-left: 3px solid #111;
+      padding-left: 6px;
+    }
+    .print-student-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 6px;
+      font-size: 11px;
+    }
+    .print-instruction {
+      margin: 0 0 5px;
+      font-size: 11px;
+    }
+    .print-passage {
+      text-align: justify;
+      line-height: 1.65;
+      font-size: 11.5px;
+      white-space: pre-wrap;
+    }
+    .print-blank {
+      display: inline-block;
+      min-width: 62px;
+      text-align: center;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+    .print-options { display: block; break-after: auto; }
+    .print-question {
+      break-inside: avoid;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 5px;
+      margin: 0;
+      padding: 2px 0;
+      border-bottom: 1px solid #ededed;
+      line-height: 1.35;
+    }
+    .print-question p {
+      margin: 0;
+      white-space: nowrap;
+    }
+  `;
+}
+
+function getPrintDocumentTitle() {
+  return [lesson.title, lesson.source].filter(Boolean).join(" - ");
+}
+
+function printPaperOnly(paperHtml) {
+  const iframe = document.createElement("iframe");
+  iframe.title = "print-paper";
+  iframe.setAttribute("aria-hidden", "true");
+  iframe.style.position = "fixed";
+  iframe.style.right = "0";
+  iframe.style.bottom = "0";
+  iframe.style.width = "1px";
+  iframe.style.height = "1px";
+  iframe.style.border = "0";
+  iframe.style.opacity = "0";
+  document.body.appendChild(iframe);
+
+  const doc = iframe.contentWindow.document;
+  doc.open();
+  doc.write(`
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>${escapeHtml(getPrintDocumentTitle())}</title>
+        <style>${getPrintStyles()}</style>
+      </head>
+      <body>${paperHtml}</body>
+    </html>
+  `);
+  doc.close();
+
+  const startPrint = () => {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    window.setTimeout(() => iframe.remove(), 1500);
+  };
+  window.setTimeout(startPrint, 100);
 }
 
 function renderResult() {
