@@ -3845,7 +3845,19 @@ function getCollocationMeaning(item) {
     "make a promise": "许下承诺",
     "take one's advice": "听取某人的建议",
     "tell sb. about sth.": "告诉某人关于某事",
-    "with patience": "耐心地"
+    "with patience": "耐心地",
+    "make travel easier": "让出行更容易",
+    "It takes/took time": "花费时间",
+    "come true": "实现；成真",
+    "at night": "在夜晚",
+    "start a business": "创业；开始做生意",
+    "a better future": "更美好的未来",
+    "lose a game": "输掉一场比赛",
+    "strict rules": "严格的规则",
+    "throw away": "扔掉",
+    "get a headache": "头痛",
+    "It's normal for sb. to do sth.": "某人做某事是正常的",
+    "think about": "思考；想一想"
   };
   if (meanings[item.collocation]) return meanings[item.collocation];
   const text = (item.explanation || "").trim();
@@ -3887,7 +3899,6 @@ renderCollocationReview = function() {
             <span class="collocation-card-face collocation-card-back">
               <span>英文固定搭配</span>
               <strong>${item.collocation}</strong>
-              ${item.breakdown ? `<small>${item.breakdown}</small>` : ""}
             </span>
           </span>
         </button>
