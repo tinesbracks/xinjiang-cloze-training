@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>完形填空闯关训练 MVP</title>
+    <title>新疆中考英语完形填空训练系统</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -12,7 +12,7 @@
         <div class="login-hero">
           <div class="login-brand">
             <p class="login-kicker">@新疆学生无限进步 我们始终相信你可以无限进步</p>
-            <h1>新疆中考完型解题训练系统</h1>
+            <h1>新疆中考英语完形填空训练系统</h1>
             <h2>3分钟满分训练</h2>
           </div>
           <div class="login-panel">
@@ -35,8 +35,8 @@
     <main id="appShell" class="app-shell home-mode">
       <aside id="sidebar" class="sidebar">
         <div>
-          <p class="eyebrow">Cloze Coach MVP</p>
-          <h1>完形填空闯关训练</h1>
+          <p class="eyebrow">新疆中考英语</p>
+          <h1>新疆中考英语完形填空训练系统</h1>
           <p class="subtitle">首尾定调、成分/重点判断、错题解析、复盘提升。</p>
         </div>
 
@@ -193,15 +193,27 @@
           <section id="collocationReview" class="collocation-review"></section>
           <div class="read-aloud">
             <div>
-              <strong id="readStatus">点击任意英文句子即可朗读</strong>
-              <p>点哪一句，哪一句高亮、发音，并显示中文意思。</p>
+              <strong id="readStatus">精读翻译台</strong>
+              <p>完整查看原文和选项；单击单词或选项看意思，双击句子看整句中文。</p>
             </div>
           </div>
-          <article id="filledPassage" class="filled-passage"></article>
-          <div id="sentenceMeaning" class="translation-card">
-            <strong>句意</strong>
-            <p>点击上方任意一句，查看中文意思。</p>
+          <div class="translation-workbench">
+            <div class="translation-main">
+              <article id="filledPassage" class="filled-passage"></article>
+              <div id="translationOptions" class="translation-options"></div>
+            </div>
+            <div id="sentenceMeaning" class="translation-card">
+              <strong>翻译</strong>
+              <p>单击单词或选项查看意思，双击句子查看整句中文。</p>
+            </div>
           </div>
+          <section class="paper-practice">
+            <div>
+              <strong>纸质版再练习一遍</strong>
+              <p>生成考试卷样式，只保留原文空格和选项，适合打印后二刷。</p>
+            </div>
+            <button id="printReportBtn" class="primary-button">PDF打印</button>
+          </section>
         </section>
 
         <section id="notebook" class="panel study-panel">
@@ -217,6 +229,7 @@
       </section>
     </main>
 
+    <div id="printArea" class="print-area" aria-hidden="true"></div>
     <script src="app.js"></script>
   </body>
 </html>
