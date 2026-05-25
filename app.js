@@ -3159,6 +3159,98 @@ const learningTcm = {
   ]
 };
 
+const powerOfWords = {
+  id: "power-of-words",
+  title: "言语的力量",
+  englishTitle: "The Power of Words",
+  level: "初三",
+  difficulty: "中等",
+  source: "2026年乌鲁木齐中考第三次模拟考试",
+  tags: ["人物故事", "情感成长", "逻辑推理", "褒贬态度一致", "上下文复现"],
+  available: true,
+  firstSentence: "A sad memory from Grade 7 came to my mind.",
+  lastSentence: "I hope my words can help others.",
+  tone: "转折升华",
+  toneReason: "文章先写七年级被排挤的伤心孤独，再写八年级被老师鼓励后重新努力，最后升华为理解言语的力量并用文字传递善意。",
+  passage: [
+    "A sad memory from Grade 7 came to my mind. The sky was ",
+    { blank: 21 },
+    " that day, and I felt the same. My classmates played a game. I wanted to join, but a girl ",
+    { blank: 22 },
+    " and said, “We don’t like you.” I felt ",
+    { blank: 23 },
+    ". As time ",
+    { blank: 24 },
+    ", the feeling still stayed with me. Later, my teacher’s words helped. I remember ",
+    { blank: 25 },
+    " it happened — one day in Grade 8. I did well in an English test. My teacher’s surprise was clear, and I could see it in her ",
+    { blank: 26 },
+    ". She was happy for me. With a smile, she said, “I believe in you.” Those simple words gave me hope. I used to feel like a bird with ",
+    { blank: 27 },
+    " wings, but her words were the cure (良药). She made me put all my ",
+    { blank: 28 },
+    " into my schoolwork. My science teacher also helped. I remember her words, “Seeing such a hard-working kid fills my heart ",
+    { blank: 29 },
+    " pleasure.” From this experience, I ",
+    { blank: 30 },
+    " realized that words can hurt. But I also understood the ",
+    { blank: 31 },
+    " of words. Kind words can warm our hearts in the coldest winter, ",
+    { blank: 32 },
+    " harsh (刺耳的) words can hurt our feelings even in the hottest summer. So we should always be kind and ",
+    { blank: 33 },
+    " about our words. After school, I started writing. It helps me ",
+    { blank: 34 },
+    " my feelings and continue my teachers’ kindness. Their encouragement has ",
+    { blank: 35 },
+    " my life. I hope my words can help others."
+  ],
+  questions: [
+    q(21, ["bright", "grey", "empty"], "grey", "形容词副词", "褒贬态度一致法 / 语境推理", ["sad memory", "felt the same"], "开篇是伤心回忆，作者心情也和天空一样灰暗，选 grey。"),
+    q(22, ["refused", "agreed", "managed"], "refused", "动词", "逻辑推理 / 转折关系", ["wanted to join", "but", "We don’t like you"], "作者想加入游戏，但女孩说不喜欢她，说明女孩拒绝了她。"),
+    q(23, ["happy", "tired", "lonely"], "lonely", "形容词副词", "情感态度 / 逻辑推理", ["wanted to join", "We don’t like you"], "被排挤、不能加入游戏，自然会感到孤独。"),
+    q(24, ["went by", "ran out", "came back"], "went by", "动词短语", "固定搭配 / 词义辨析", ["As time ___"], "as time went by 表示随着时间流逝。", "as time goes/went by", "动词短语", "as + time + go/went + by"),
+    q(25, ["how", "when", "why"], "when", "连词逻辑", "语法 / 下文暗示", ["one day in Grade 8"], "后文给出 one day in Grade 8 这个时间点，说明记得事情何时发生。"),
+    q(26, ["eyes", "mouth", "hands"], "eyes", "名词", "常识推断 / 语义场", ["surprise was clear", "could see it"], "惊讶和喜悦通常能从眼神中看出来。"),
+    q(27, ["strong", "broken", "dangerous"], "broken", "形容词副词", "逻辑推理 / 转折对比", ["but her words were the cure"], "后文说老师的话是良药，前文应是受伤状态，像断了翅膀的鸟。"),
+    q(28, ["wealth", "courage", "effort"], "effort", "名词", "上下文复现 / 固定搭配", ["hard-working kid"], "后文老师夸作者努力，说明她把全部努力投入学习。", "put one's effort into sth.", "动宾搭配", "put + one's effort + into + sth."),
+    q(29, ["with", "of", "out"], "with", "介词搭配", "固定搭配", ["fills my heart ___ pleasure"], "fill sth. with sth. 表示使某物充满某物。", "fill... with...", "动词短语", "fill + 宾语 + with + 名词"),
+    q(30, ["badly", "truly", "differently"], "truly", "形容词副词", "语境推理 / 词汇辨析", ["realized that words can hurt"], "经历伤害和鼓励后，作者真正意识到言语会伤人。"),
+    q(31, ["symbol", "weight", "power"], "power", "名词", "主旨升华 / 逻辑对比", ["words can hurt", "warm our hearts"], "言语既能伤人也能温暖人，体现 words 的力量。", "the power of words", "名词搭配", "the + power + of + words"),
+    q(32, ["while", "though", "if"], "while", "连词逻辑", "逻辑推理 / 对比关系", ["warm our hearts", "hurt our feelings"], "善意的话温暖人心，刺耳的话伤害人心，前后构成对比，用 while。"),
+    q(33, ["ready", "careful", "honest"], "careful", "形容词副词", "因果关系 / 情感态度", ["So", "words can hurt"], "因为言语会伤人，所以我们要谨慎对待自己的话。", "be careful about", "形容词搭配", "be + careful + about"),
+    q(34, ["express", "perform", "praise"], "express", "动词", "动宾搭配 / 常识推断", ["started writing", "my feelings"], "写作可以帮助作者表达自己的感受。", "express one's feelings", "动宾搭配", "express + one's feelings"),
+    q(35, ["required", "punished", "changed"], "changed", "动词", "主旨升华 / 全文总结", ["hope my words can help others"], "老师的鼓励改变了作者的人生，让她也想用文字帮助别人。", "change one's life", "动宾搭配", "change + one's life")
+  ],
+  verifySentences: [
+    { english: "A sad memory from Grade 7 came to my mind.", chinese: "一段七年级的伤心回忆浮现在我的脑海中。" },
+    { english: "The sky was grey that day, and I felt the same.", chinese: "那天天空灰蒙蒙的，我的心情也是如此。", answers: ["grey"] },
+    { english: "My classmates played a game.", chinese: "我的同学们在玩一个游戏。" },
+    { english: "I wanted to join, but a girl refused and said, “We don’t like you.”", chinese: "我想加入，但一个女孩拒绝了我，并说：“我们不喜欢你。”", answers: ["refused"] },
+    { english: "I felt lonely.", chinese: "我感到很孤独。", answers: ["lonely"] },
+    { english: "As time went by, the feeling still stayed with me.", chinese: "随着时间流逝，那种感觉仍然留在我心里。", answers: ["went by"] },
+    { english: "Later, my teacher’s words helped.", chinese: "后来，老师的话帮助了我。" },
+    { english: "I remember when it happened — one day in Grade 8.", chinese: "我记得那件事发生在什么时候——八年级的一天。", answers: ["when"] },
+    { english: "I did well in an English test.", chinese: "我在一次英语考试中考得很好。" },
+    { english: "My teacher’s surprise was clear, and I could see it in her eyes.", chinese: "老师的惊讶很明显，我能从她的眼睛里看出来。", answers: ["eyes"] },
+    { english: "She was happy for me.", chinese: "她为我感到高兴。" },
+    { english: "With a smile, she said, “I believe in you.”", chinese: "她微笑着说：“我相信你。”" },
+    { english: "Those simple words gave me hope.", chinese: "这些简单的话给了我希望。" },
+    { english: "I used to feel like a bird with broken wings, but her words were the cure.", chinese: "我过去觉得自己像一只折断翅膀的鸟，但她的话是良药。", answers: ["broken"] },
+    { english: "She made me put all my effort into my schoolwork.", chinese: "她让我把全部努力投入到学业中。", answers: ["effort"] },
+    { english: "My science teacher also helped.", chinese: "我的科学老师也帮助了我。" },
+    { english: "Seeing such a hard-working kid fills my heart with pleasure.", chinese: "看到这样一个努力的孩子，我心里充满喜悦。", answers: ["with"] },
+    { english: "From this experience, I truly realized that words can hurt.", chinese: "从这段经历中，我真正意识到言语会伤人。", answers: ["truly"] },
+    { english: "But I also understood the power of words.", chinese: "但我也理解了言语的力量。", answers: ["power"] },
+    { english: "Kind words can warm our hearts in the coldest winter, while harsh words can hurt our feelings even in the hottest summer.", chinese: "善意的话能在最寒冷的冬天温暖我们的心，而刺耳的话即使在最炎热的夏天也会伤害我们的感受。", answers: ["while"] },
+    { english: "So we should always be kind and careful about our words.", chinese: "所以我们应该始终善良，并谨慎对待自己的话。", answers: ["careful"] },
+    { english: "After school, I started writing.", chinese: "放学后，我开始写作。" },
+    { english: "It helps me express my feelings and continue my teachers’ kindness.", chinese: "它帮助我表达感受，并延续老师们的善意。", answers: ["express"] },
+    { english: "Their encouragement has changed my life.", chinese: "她们的鼓励改变了我的人生。", answers: ["changed"] },
+    { english: "I hope my words can help others.", chinese: "我希望我的文字能帮助别人。" }
+  ]
+};
+
 const lessonBanks = [
   {
     id: "basic",
@@ -3206,7 +3298,8 @@ const lessonBanks = [
       heartOfBamboo,
       journeyNotAlone,
       lessonOfLove,
-      learningTcm
+      learningTcm,
+      powerOfWords
     ]
   }
 ];
@@ -4391,7 +4484,14 @@ function getCollocationMeaning(item) {
     "give up": "放弃",
     "not just": "不仅仅",
     "strengths and talents": "优势和才能",
-    "change this": "改变这一点"
+    "change this": "改变这一点",
+    "as time goes/went by": "随着时间流逝",
+    "put one's effort into sth.": "把努力投入到某事中",
+    "fill... with...": "使……充满……",
+    "the power of words": "言语的力量",
+    "be careful about": "对……谨慎",
+    "express one's feelings": "表达某人的感受",
+    "change one's life": "改变某人的人生"
   };
   if (meanings[item.collocation]) return meanings[item.collocation];
   return getShortCollocationFallback(item.collocation);
