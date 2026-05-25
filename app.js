@@ -3339,6 +3339,10 @@ const els = {
   topEnglishTitle: document.querySelector("#topEnglishTitle"),
   firstSentence: document.querySelector("#firstSentence"),
   lastSentence: document.querySelector("#lastSentence"),
+  openNotebookBtn: document.querySelector("#openNotebookBtn"),
+  openCollocationBankBtn: document.querySelector("#openCollocationBankBtn"),
+  homeNotebookPanel: document.querySelector("#homeNotebookPanel"),
+  homeCollocationPanel: document.querySelector("#homeCollocationPanel"),
   homeProgress: document.querySelector("#homeProgress"),
   homeGrid: document.querySelector("#homeGrid"),
   lessonGrid: document.querySelector("#lessonGrid"),
@@ -3379,7 +3383,9 @@ const els = {
   translationOptions: document.querySelector("#translationOptions"),
   resultHomeBtn: document.querySelector("#resultHomeBtn"),
   notebookSummary: document.querySelector("#notebookSummary"),
-  notebookGroups: document.querySelector("#notebookGroups")
+  weaknessRadar: document.querySelector("#weaknessRadar"),
+  notebookGroups: document.querySelector("#notebookGroups"),
+  collocationBank: document.querySelector("#collocationBank")
 };
 
 function init() {
@@ -3396,11 +3402,13 @@ function init() {
   bindStaticEvents();
   updateProgress();
   renderNotebook();
+  renderCollocationBank();
 }
 
 function enterHome() {
   els.appShell.classList.add("home-mode");
   els.appShell.classList.remove("study-mode");
+  showHomeLibrary(false);
   resetSentenceAudio();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -3498,6 +3506,7 @@ function renderHomeProgress(doneLessons = getDoneLessons()) {
 }
 
 function renderHomeLibrary() {
+  showHomeLibrary(false);
   const doneLessons = getDoneLessons();
   renderHomeProgress(doneLessons);
   els.homeGrid.innerHTML = "";
@@ -3538,6 +3547,33 @@ function renderHomeLibrary() {
     section.appendChild(list);
     els.homeGrid.appendChild(section);
   });
+}
+
+function showHomeLibrary(shouldScroll = true) {
+  els.homeNotebookPanel?.classList.add("hidden");
+  els.homeCollocationPanel?.classList.add("hidden");
+  els.homeProgress?.classList.remove("hidden");
+  els.homeGrid?.classList.remove("hidden");
+  if (shouldScroll) {
+    document.querySelector("#home")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function showHomeTool(tool) {
+  els.appShell.classList.add("home-mode");
+  els.appShell.classList.remove("study-mode");
+  resetSentenceAudio();
+  const isNotebook = tool === "notebook";
+  els.homeNotebookPanel?.classList.toggle("hidden", !isNotebook);
+  els.homeCollocationPanel?.classList.toggle("hidden", isNotebook);
+  els.homeProgress?.classList.add("hidden");
+  els.homeGrid?.classList.add("hidden");
+  if (isNotebook) {
+    renderNotebook();
+  } else {
+    renderCollocationBank();
+  }
+  document.querySelector("#home")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function renderLessonLibrary() {
@@ -4346,14 +4382,36 @@ function getCollocationMeaning(item) {
     "stay up late": "熬夜",
     "avoid doing sth.": "避免做某事",
     "stay healthy": "保持健康",
-    "after graduation": "毕业后"
+    "after graduation": "毕业后",
+    "manage to do sth.": "设法成功做成某事",
+    "get a job": "找工作",
+    "keep doing sth.": "持续做某事",
+    "decide to do sth.": "决定做某事",
+    "take sth. to...": "把某物带到……",
+    "give up": "放弃",
+    "not just": "不仅仅",
+    "strengths and talents": "优势和才能",
+    "change this": "改变这一点"
   };
   if (meanings[item.collocation]) return meanings[item.collocation];
-  const text = (item.explanation || "").trim();
-  if (!text) return "结合原文理解这个固定搭配的中文意思";
-  const match = text.match(/意为“([^”]+)”|表示“([^”]+)”|指“([^”]+)”/);
-  if (match) return match[1] || match[2] || match[3];
-  return text.split(/[。！？]/)[0] || "结合原文理解这个固定搭配的中文意思";
+  return getShortCollocationFallback(item.collocation);
+}
+
+function getShortCollocationFallback(collocation) {
+  const text = String(collocation || "").trim();
+  if (!text || text === "无") return "重点固定搭配";
+  if (text.includes("to do")) return "后接不定式";
+  if (text.includes("doing")) return "后接动名词";
+  if (text.includes("sb.")) return "与某人相关的搭配";
+  if (text.includes("sth.")) return "与某物相关的搭配";
+  if (text.includes("...")) return "重点省略搭配";
+  if (/\bwith\b/.test(text)) return "with 结构搭配";
+  if (/\bfor\b/.test(text)) return "for 结构搭配";
+  if (/\bof\b/.test(text)) return "of 结构搭配";
+  if (/\bin\b/.test(text)) return "in 结构搭配";
+  if (/\bon\b/.test(text)) return "on 结构搭配";
+  if (/\bup\b|\bout\b|\boff\b/.test(text)) return "动词短语搭配";
+  return "重点固定搭配";
 }
 
 renderCollocationReview = function() {
@@ -4479,6 +4537,12 @@ function bindStaticEvents() {
       button.classList.add("active");
       document.querySelector(`#${button.dataset.jump}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
+  });
+
+  els.openNotebookBtn?.addEventListener("click", () => showHomeTool("notebook"));
+  els.openCollocationBankBtn?.addEventListener("click", () => showHomeTool("collocation"));
+  document.querySelectorAll("[data-home-tool-close]").forEach((button) => {
+    button.addEventListener("click", () => showHomeLibrary());
   });
 
   els.resetBtn.addEventListener("click", () => {
@@ -5769,6 +5833,14 @@ function renderNotebook() {
         <p>完成练习后，错题会自动进入这里，并按考点类型整理。</p>
       </div>
     `;
+    if (els.weaknessRadar) {
+      els.weaknessRadar.innerHTML = `
+        <div class="radar-empty">
+          <strong>薄弱点雷达</strong>
+          <p>还没有错题数据。完成几篇训练后，这里会自动判断你的主要薄弱类型。</p>
+        </div>
+      `;
+    }
     els.notebookGroups.innerHTML = "";
     return;
   }
@@ -5785,6 +5857,7 @@ function renderNotebook() {
     <div class="notebook-stat"><strong>${Object.keys(groups).length}</strong><span>涉及类型</span></div>
     <div class="notebook-stat"><strong>${new Set(records.map((record) => record.lessonId)).size}</strong><span>来源文章</span></div>
   `;
+  renderWeaknessRadar(records);
 
   els.notebookGroups.innerHTML = "";
   Object.entries(groups)
@@ -5817,6 +5890,141 @@ function renderNotebook() {
       `;
       els.notebookGroups.appendChild(group);
     });
+}
+
+function getCoreCategory(category) {
+  const text = String(category || "");
+  if (text.includes("固定搭配") || text.includes("搭配")) return "固定搭配";
+  if (text.includes("逻辑")) return "逻辑关系";
+  if (text.includes("情感")) return "情感态度";
+  if (text.includes("上下文") || text.includes("复现")) return "上下文复现";
+  if (text.includes("语法")) return "语法结构";
+  if (text.includes("词汇")) return "词汇辨析";
+  if (text.includes("常识")) return "常识推断";
+  return "综合判断";
+}
+
+function renderWeaknessRadar(records) {
+  if (!els.weaknessRadar) return;
+  const radarTypes = ["固定搭配", "逻辑关系", "情感态度", "上下文复现", "语法结构", "词汇辨析", "常识推断"];
+  const counts = records.reduce((bucket, record) => {
+    const key = getCoreCategory(record.category);
+    bucket[key] = (bucket[key] || 0) + 1;
+    return bucket;
+  }, {});
+  const max = Math.max(1, ...Object.values(counts));
+  const ranked = radarTypes
+    .map((name) => ({ name, count: counts[name] || 0 }))
+    .sort((a, b) => b.count - a.count);
+  const strongest = ranked[0];
+  const diagnosis = strongest.count
+    ? getWeaknessDiagnosis(strongest.name, strongest.count)
+    : "目前错题还不集中，继续训练几篇后会更容易看出规律。";
+
+  els.weaknessRadar.innerHTML = `
+    <div class="radar-heading">
+      <div>
+        <span>薄弱点雷达</span>
+        <strong>${strongest.count ? strongest.name : "继续积累数据"}</strong>
+      </div>
+      <p>${diagnosis}</p>
+    </div>
+    <div class="radar-bars">
+      ${ranked.map((item) => `
+        <div class="radar-row">
+          <span>${item.name}</span>
+          <div class="radar-track"><i style="width: ${Math.max(6, Math.round((item.count / max) * 100))}%"></i></div>
+          <b>${item.count}</b>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function getWeaknessDiagnosis(type, count) {
+  const countText = `已累计 ${count} 题`;
+  const messages = {
+    "固定搭配": `${countText}。你容易忽略空格前后的固定结构，做题时先看动词、介词、宾语和句型是否成套出现。`,
+    "逻辑关系": `${countText}。你需要更敏感地圈出 because、but、so、and、although 等关系词，先判断前后句关系再选。`,
+    "情感态度": `${countText}。你容易漏看褒贬方向，先判断局部情绪是正向、负向还是转折，再排除不一致选项。`,
+    "上下文复现": `${countText}。你需要加强画箭头找原词、同义词、语义场复现，尤其注意下文给答案。`,
+    "语法结构": `${countText}。你要先看空格前后结构信号，比如比较级、冠词、介词、非谓语和从句引导词。`,
+    "词汇辨析": `${countText}。你需要对比选项的使用对象和搭配场景，不要只看中文大意。`,
+    "常识推断": `${countText}。你需要把生活常识和原文触发条件结合起来，避免脱离文本猜答案。`
+  };
+  return messages[type] || `${countText}。这类题需要回到原文线索，复盘自己当时的判断路径。`;
+}
+
+function getAllCollocationItems() {
+  return getAvailableLessons().flatMap((item) =>
+    item.questions
+      .filter((question) => question.collocation && question.collocation !== "无")
+      .map((question) => ({
+        lessonId: item.id,
+        lessonTitle: item.title,
+        source: item.source,
+        id: question.id,
+        collocation: question.collocation,
+        explanation: question.explanation,
+        category: question.category
+      }))
+  );
+}
+
+function renderCollocationBank() {
+  if (!els.collocationBank) return;
+  const items = getAllCollocationItems();
+  const groups = items.reduce((bucket, item) => {
+    const key = item.lessonTitle;
+    if (!bucket[key]) bucket[key] = [];
+    bucket[key].push(item);
+    return bucket;
+  }, {});
+
+  els.collocationBank.innerHTML = `
+    <div class="collocation-bank-heading">
+      <div>
+        <p class="eyebrow">固定搭配总库</p>
+        <h3>中考高频搭配卡片</h3>
+      </div>
+      <span>${items.length} 个搭配</span>
+    </div>
+    <p class="collocation-bank-tip">正面显示中文意思，点击后翻转查看英文固定搭配。建议错题复盘后顺手翻一组。</p>
+    <div class="collocation-bank-groups">
+      ${Object.entries(groups).map(([title, groupItems]) => `
+        <article class="collocation-bank-group">
+          <div class="collocation-bank-group-head">
+            <strong>${title}</strong>
+            <span>${groupItems.length} 个</span>
+          </div>
+          <div class="collocation-review-list compact">
+            ${groupItems.map((item) => `
+              <button class="collocation-review-card" type="button" aria-pressed="false">
+                <span class="collocation-card-inner">
+                  <span class="collocation-card-face collocation-card-front">
+                    <span>第 ${item.id} 题 · 中文意思</span>
+                    <strong>${getCollocationMeaning(item)}</strong>
+                    <small>点击翻看固定搭配</small>
+                  </span>
+                  <span class="collocation-card-face collocation-card-back">
+                    <span>英文固定搭配</span>
+                    <strong>${item.collocation}</strong>
+                  </span>
+                </span>
+              </button>
+            `).join("")}
+          </div>
+        </article>
+      `).join("")}
+    </div>
+  `;
+
+  els.collocationBank.querySelectorAll(".collocation-review-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      const isFlipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", String(isFlipped));
+    });
+  });
 }
 
 function updateProgress() {

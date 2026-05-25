@@ -572,8 +572,10 @@ h1 {
 }
 
 .home-heading {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
   margin-bottom: 28px;
 }
 
@@ -586,6 +588,55 @@ h1 {
   max-width: 720px;
   color: var(--muted);
   line-height: 1.8;
+}
+
+.home-tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 260px;
+}
+
+.home-tool-button {
+  border: 1px solid rgba(124, 58, 237, 0.24);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: #25145f;
+  background: #fff;
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.16);
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.home-tool-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(124, 58, 237, 0.5);
+  color: #4c1d95;
+  background: #f5f3ff;
+}
+
+.home-tool-panel {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.16);
+}
+
+.home-tool-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.home-tool-panel-head h3 {
+  margin: 4px 0 0;
+  color: #1e293b;
 }
 
 .home-progress {
@@ -1480,9 +1531,84 @@ h1 {
   margin: 8px 0 0;
 }
 
+.weakness-radar {
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid rgba(124, 58, 237, 0.18);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #fbfaff 0%, #eef5ff 100%);
+}
+
+.radar-empty strong,
+.radar-heading span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.radar-heading {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.radar-heading strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--accent-dark);
+  font-size: 24px;
+}
+
+.radar-heading p,
+.radar-empty p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.radar-empty p {
+  margin-top: 8px;
+}
+
+.radar-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.radar-row {
+  display: grid;
+  grid-template-columns: 82px 1fr 34px;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  color: #334155;
+}
+
+.radar-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dbe4f0;
+}
+
+.radar-track i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7c3aed, #2563eb);
+}
+
+.radar-row b {
+  color: var(--accent-dark);
+  text-align: right;
+}
+
 .notebook-groups {
   display: grid;
   gap: 14px;
+  margin-bottom: 18px;
 }
 
 .notebook-group {
@@ -1537,6 +1663,71 @@ h1 {
   margin: 6px 0 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.collocation-bank {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.collocation-bank-heading,
+.collocation-bank-group-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.collocation-bank-heading h3 {
+  margin: 4px 0 0;
+}
+
+.collocation-bank-heading span,
+.collocation-bank-group-head span {
+  padding: 5px 10px;
+  border-radius: 999px;
+  color: #4c1d95;
+  background: #ede9fe;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.collocation-bank-tip {
+  margin: 10px 0 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.collocation-bank-groups {
+  display: grid;
+  gap: 14px;
+}
+
+.collocation-bank-group {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfcff;
+}
+
+.collocation-bank-group-head {
+  margin-bottom: 12px;
+}
+
+.collocation-bank-group-head strong {
+  color: #1e293b;
+}
+
+.collocation-review-list.compact {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.collocation-review-list.compact .collocation-review-card {
+  min-height: 120px;
 }
 
 .site-footer {
@@ -1639,6 +1830,21 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .home-heading,
+  .home-tool-panel-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .home-tool-actions {
+    justify-content: flex-start;
+    min-width: 0;
+  }
+
+  .radar-heading {
+    grid-template-columns: 1fr;
+  }
+
   .translation-card {
     position: static;
   }
@@ -1660,6 +1866,16 @@ h1 {
   }
 
   .collocation-review-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .radar-row {
+    grid-template-columns: 72px 1fr 28px;
+  }
+
+  .collocation-bank-heading,
+  .collocation-bank-group-head {
     align-items: flex-start;
     flex-direction: column;
   }

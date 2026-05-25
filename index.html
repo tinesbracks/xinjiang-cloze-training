@@ -61,17 +61,44 @@
           <button class="step-item" data-jump="training">2. 逐空训练</button>
           <button class="step-item" data-jump="result" disabled>3. 错题解析</button>
           <button class="step-item" data-jump="verify">4. 复盘提升</button>
-          <button class="step-item" data-jump="notebook">专属错题本</button>
         </nav>
       </aside>
 
       <section class="workspace">
         <section id="home" class="panel home-panel">
           <div class="home-heading">
-            <p class="eyebrow">题库主页</p>
-            <h2>选择一篇文章开始训练</h2>
-            <p>已上传的文章会显示在这里。做过的文章会保留记录，也可以重复练习。</p>
+            <div>
+              <p class="eyebrow">题库主页</p>
+              <h2>选择一篇文章开始训练</h2>
+              <p>已上传的文章会显示在这里。做过的文章会保留记录，也可以重复练习。</p>
+            </div>
+            <div class="home-tool-actions" aria-label="学习工具入口">
+              <button id="openNotebookBtn" class="home-tool-button" type="button">专属错题本</button>
+              <button id="openCollocationBankBtn" class="home-tool-button" type="button">固定搭配总库</button>
+            </div>
           </div>
+          <section id="homeNotebookPanel" class="home-tool-panel hidden">
+            <div class="home-tool-panel-head">
+              <div>
+                <p class="eyebrow">专属错题本</p>
+                <h3>薄弱点雷达与错题规律</h3>
+              </div>
+              <button class="ghost-button" type="button" data-home-tool-close>返回题库</button>
+            </div>
+            <div id="notebookSummary" class="notebook-summary"></div>
+            <div id="weaknessRadar" class="weakness-radar"></div>
+            <div id="notebookGroups" class="notebook-groups"></div>
+          </section>
+          <section id="homeCollocationPanel" class="home-tool-panel hidden">
+            <div class="home-tool-panel-head">
+              <div>
+                <p class="eyebrow">固定搭配总库</p>
+                <h3>中考高频搭配卡片</h3>
+              </div>
+              <button class="ghost-button" type="button" data-home-tool-close>返回题库</button>
+            </div>
+            <section id="collocationBank" class="collocation-bank"></section>
+          </section>
           <div id="homeProgress" class="home-progress"></div>
           <div id="homeGrid" class="home-grid"></div>
         </section>
@@ -214,15 +241,6 @@
             </div>
             <button id="printReportBtn" class="primary-button">PDF打印</button>
           </section>
-        </section>
-
-        <section id="notebook" class="panel study-panel">
-          <div class="panel-heading">
-            <p class="eyebrow">专属错题本</p>
-            <h3>按错题类型整理规律</h3>
-          </div>
-          <div id="notebookSummary" class="notebook-summary"></div>
-          <div id="notebookGroups" class="notebook-groups"></div>
         </section>
 
         <footer class="site-footer">@新疆学生无限进步 我们始终相信，你可以无限进步</footer>
