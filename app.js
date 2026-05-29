@@ -3577,6 +3577,24 @@ function shouldUseCollocationFirst(question) {
   return !clueFirstTypes.some((type) => category.includes(type));
 }
 
+function isAllOptionCollocationQuestion(question) {
+  if (!hasStoredCollocation(question)) return false;
+  const text = `${question.category || ""} ${question.pos || ""} ${question.collocationType || ""}`;
+  const optionsLookLikePhrases = question.options.every((option) => /\s/.test(String(option).trim()));
+  return optionsLookLikePhrases && (text.includes("固定搭配") || text.includes("短语") || text.includes("辨析"));
+}
+
+function isPrepositionCollocationQuestion(question) {
+  if (!hasStoredCollocation(question)) return false;
+  const text = `${question.pos || ""} ${question.category || ""} ${question.collocationType || ""} ${question.collocationBreakdown || ""}`;
+  const optionsAreShort = question.options.every((option) => /^[A-Za-z]{1,8}$/.test(String(option).trim()));
+  return optionsAreShort && (text.includes("介词") || text.includes("介词短语") || /(?:^|\s)(in|on|at|to|for|from|with|of|by|into|about)(?:\s|$)/i.test(question.collocation));
+}
+
+function shouldSkipCollocationStep(question) {
+  return isAllOptionCollocationQuestion(question);
+}
+
 function renderHomeProgress(doneLessons = getDoneLessons()) {
   if (!els.homeProgress) return;
   const lessons = getAvailableLessons();
@@ -3878,18 +3896,23 @@ function renderTextWithClues(container, text, question) {
   }
 
   const matches = [];
-  question.clues.forEach((clue, clueIndex) => {
+  getQuestionHighlightItems(question).forEach((item) => {
     const lowerText = text.toLowerCase();
-    const lowerClue = clue.toLowerCase();
-    let start = lowerText.indexOf(lowerClue);
-    while (start !== -1) {
-      matches.push({
-        start,
-        end: start + clue.length,
-        clueIndex
-      });
-      start = lowerText.indexOf(lowerClue, start + clue.length);
-    }
+    item.targets.forEach((target) => {
+      const lowerTarget = target.toLowerCase();
+      let start = lowerText.indexOf(lowerTarget);
+      while (start !== -1) {
+        matches.push({
+          start,
+          end: start + target.length,
+          clueIndex: item.clueIndex,
+          clue: item.clue,
+          relationType: item.relationType,
+          target
+        });
+        start = lowerText.indexOf(lowerTarget, start + target.length);
+      }
+    });
   });
 
   if (!matches.length) {
@@ -3914,6 +3937,8 @@ function renderTextWithClues(container, text, question) {
     }
     const mark = document.createElement("span");
     mark.className = `clue-mark clue-${clueColors[match.clueIndex % clueColors.length]}`;
+    mark.dataset.clueType = match.relationType || getClueRelationType(question, match.clue);
+    mark.title = `${match.clue} · ${mark.dataset.clueType}`;
     mark.textContent = text.slice(match.start, match.end);
     container.appendChild(mark);
     cursor = match.end;
@@ -3949,9 +3974,100 @@ function renderOptionPreview(question) {
   });
 }
 
+function getClueSearchTargets(clue = "") {
+  const raw = String(clue || "").trim();
+  if (!raw) return [];
+  const targets = [raw];
+  const cleaned = raw
+    .replace(/[“”"']/g, "")
+    .replace(/\([^)]*\)/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const stopWords = new Set(["a", "an", "the", "of", "to", "for", "with", "and", "or", "but", "who", "was", "were", "is", "are"]);
+  const words = cleaned.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) || [];
+  const meaningful = words.filter((word) => !stopWords.has(word.toLowerCase()));
+
+  for (let size = Math.min(4, meaningful.length); size >= 2; size -= 1) {
+    for (let index = 0; index <= meaningful.length - size; index += 1) {
+      targets.push(meaningful.slice(index, index + size).join(" "));
+    }
+  }
+  if (meaningful.length <= 1) {
+    meaningful.forEach((word) => {
+      if (word.length >= 5) targets.push(word);
+    });
+  }
+
+  return [...new Set(targets)].sort((a, b) => b.length - a.length);
+}
+
+function getCollocationAnchorTargets(question) {
+  if (!isPrepositionCollocationQuestion(question)) return [];
+  const placeholders = new Set(["sb", "sth", "swh", "somebody", "someone", "something", "one", "oneself"]);
+  const optionWords = new Set(question.options.map((option) => String(option).toLowerCase()));
+  const prepositions = new Set(["in", "on", "at", "to", "for", "from", "with", "of", "by", "into", "about", "after", "before", "under", "around", "up", "out", "off", "away"]);
+  const words = String(question.collocation || "")
+    .replace(/[“”"']/g, "")
+    .replace(/\([^)]*\)/g, "")
+    .match(/[A-Za-z]+/g) || [];
+  return [...new Set(words)]
+    .filter((word) => {
+      const lower = word.toLowerCase();
+      return word.length >= 3 && !placeholders.has(lower) && !optionWords.has(lower) && !prepositions.has(lower);
+    })
+    .sort((a, b) => b.length - a.length);
+}
+
+function getClueSourceSentence(question, clue = "") {
+  const rawClue = String(clue || "");
+  const searchTargets = rawClue.startsWith("固定搭配骨架：")
+    ? getCollocationAnchorTargets(question)
+    : getClueSearchTargets(clue);
+  const targets = searchTargets.map((target) => target.toLowerCase());
+  if (!targets.length) return "";
+  const sourceSentences = [];
+  (lesson.verifySentences || []).forEach((sentence) => {
+    if (sentence.english) sourceSentences.push(sentence.english);
+  });
+  if (Array.isArray(lesson.passage)) {
+    const passageText = lesson.passage.map((part) => (typeof part === "string" ? part : " ____ ")).join("");
+    sourceSentences.push(...passageText.split(/(?<=[.!?。！？])\s+/));
+  }
+  const found = sourceSentences.find((sentence) => {
+    const lower = sentence.toLowerCase();
+    return targets.some((target) => lower.includes(target));
+  });
+  return found || "";
+}
+
+function getQuestionHighlightItems(question) {
+  const clueItems = question.clues.map((clue, clueIndex) => ({
+    clue,
+    clueIndex,
+    targets: getClueSearchTargets(clue)
+  }));
+  const anchorTargets = getCollocationAnchorTargets(question);
+  if (anchorTargets.length) {
+    clueItems.push({
+      clue: `固定搭配骨架：${question.collocation}`,
+      clueIndex: clueItems.length,
+      targets: anchorTargets,
+      relationType: "搭配核心词"
+    });
+  }
+  return clueItems;
+}
+
 function renderPosStep(question) {
   els.posOptions.innerHTML = "";
   els.posFeedback.className = "feedback";
+
+  if (shouldSkipCollocationStep(question)) {
+    state.posPassed[question.id] = true;
+    document.querySelector("#posStep").classList.add("hidden");
+    toggleAnswerVisibility(question);
+    return;
+  }
 
   document.querySelector("#posStep").classList.remove("hidden");
   const hasCollocation = shouldUseCollocationFirst(question);
@@ -4021,10 +4137,18 @@ function renderToolStep(question) {
   els.toolTitle.textContent = tool.title;
   els.toolGuide.innerHTML = buildToolGuide(question, tool);
   els.clueWords.innerHTML = "";
-  question.clues.forEach((clue, clueIndex) => {
+  const clueItems = getQuestionHighlightItems(question);
+  clueItems.forEach((item) => {
     const pill = document.createElement("button");
-    pill.className = `clue-pill clue-${clueColors[clueIndex % clueColors.length]}`;
-    pill.textContent = clue;
+    pill.className = `clue-pill clue-${clueColors[item.clueIndex % clueColors.length]}`;
+    const relationType = item.relationType || getClueRelationType(question, item.clue);
+    const sourceSentence = getClueSourceSentence(question, item.clue);
+    pill.innerHTML = `
+      <strong>${item.clue}</strong>
+      <span>${relationType}</span>
+      ${sourceSentence ? `<small>原句：${sourceSentence}</small>` : ""}
+    `;
+    pill.title = `${item.clue} · ${relationType}`;
     pill.addEventListener("click", () => {
       pill.classList.toggle("choice-button");
       pill.classList.toggle("correct");
@@ -4033,8 +4157,46 @@ function renderToolStep(question) {
   });
 }
 
+function getClueRelationType(question, clue = "") {
+  const text = `${question.category || ""} ${question.explanation || ""} ${question.collocation || ""}`.toLowerCase();
+  const clueText = String(clue || "").toLowerCase();
+  const answerText = String(question.answer || "").toLowerCase();
+
+  if (text.includes("同词根") || text.includes("同根") || text.includes("词根")) {
+    return text.includes("上下文") ? "同词根复现 / 上下文复现" : "同词根复现";
+  }
+  if (text.includes("同义") || text.includes("同义词")) return "同义复现";
+  if (text.includes("语义场") || text.includes("语义")) return "语义场复现";
+  if (text.includes("原词") || text.includes("同词")) return "原词复现";
+  if (text.includes("下文") || text.includes("上文")) return "上下文复现";
+  if (text.includes("首尾呼应")) return "首尾呼应";
+  if (text.includes("常识")) return "常识线索";
+  if (text.includes("情感") || text.includes("褒贬")) return "情感线索";
+  if (text.includes("逻辑") || text.includes("因果") || text.includes("转折") || text.includes("并列")) return "逻辑线索";
+  if (text.includes("固定搭配") || text.includes("搭配")) return "搭配线索";
+  if (clueText && answerText && (clueText.includes(answerText) || answerText.includes(clueText))) return "原词复现";
+  return "关键线索";
+}
+
 function buildToolGuide(question, tool) {
   const base = `<p>${tool.guide}</p>`;
+  if (isAllOptionCollocationQuestion(question)) {
+    return `
+      ${base}
+      <div class="collocation-box collocation-lens-box">
+        <strong>搭配放大镜：固定搭配辨析</strong>
+        <span>先比较每个短语的意思，再回到语境判断动作是否匹配。</span>
+        <div class="option-collocation-cards">
+          ${getOptionCollocationMeanings(question).map((item) => `
+            <article class="option-collocation-card${item.option === question.answer ? " correct" : ""}">
+              <strong>${item.label}. ${item.option}</strong>
+              <p>${item.meaning}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
   if (!shouldUseCollocationFirst(question)) return base;
   return `
     ${base}
@@ -4044,6 +4206,68 @@ function buildToolGuide(question, tool) {
       <p>${question.collocationBreakdown}</p>
     </div>
   `;
+}
+
+function getOptionCollocationMeanings(question) {
+  return question.options.map((option, index) => ({
+    label: String.fromCharCode(65 + index),
+    option,
+    meaning: getCollocationOptionMeaning(option)
+  }));
+}
+
+function getCollocationOptionMeaning(option) {
+  const normalized = normalizeTranslationKey(option);
+  const meanings = {
+    "gave up": "放弃了",
+    "took up": "开始从事；培养",
+    "put up": "挂起；张贴；搭建",
+    "cleaned up": "清理干净",
+    "working out": "解决出；锻炼出",
+    "taking out": "拿出；取出",
+    "putting out": "扑灭；熄灭",
+    "blowing out": "吹灭",
+    "look at": "看着",
+    "looking at": "看着",
+    "looking after": "照顾",
+    "looking for": "寻找",
+    "work out": "解决；算出",
+    "turn off": "关闭",
+    "pick up": "捡起；接人；拿起",
+    "turn down": "拒绝；调低",
+    "find out": "查明；弄清楚",
+    "put off": "推迟",
+    "hand in": "上交",
+    "spread out": "铺开；展开",
+    "handed out": "分发",
+    "cut out": "剪下；删除",
+    "carried out": "执行",
+    "take up": "开始从事；占据",
+    "take in": "吸入；吸收",
+    "take out": "拿出；取出",
+    "take off": "起飞；脱下",
+    "passed by": "经过",
+    "got across": "被理解；传达",
+    "went up": "上升",
+    "passed away": "去世",
+    "woke up": "醒来",
+    "look after": "照顾",
+    "deal with": "处理",
+    "search for": "寻找",
+    "pay for": "支付；为……付款",
+    "ask for": "请求；索要",
+    "look for": "寻找",
+    "get away": "离开；逃脱",
+    "give up": "放弃",
+    "stand out": "突出；显眼",
+    "took out": "拿出；取出",
+    "got out": "出去",
+    "found out": "查明；弄清楚",
+    "call on": "号召；拜访",
+    "stick on": "坚持；持续",
+    "depend on": "依靠；取决于"
+  };
+  return meanings[normalized] || translationMap[normalized] || "结合动词和介词整体理解这个短语。";
 }
 
 function getTool(question) {
@@ -4100,18 +4324,39 @@ function chooseAnswer(question, option, button) {
   });
   button.classList.add(option === question.answer ? "correct" : "wrong");
   els.answerFeedback.className = option === question.answer ? "feedback good" : "feedback bad";
-  els.answerFeedback.textContent = option === question.answer ? `答对了：${question.explanation}` : "先保留你的选择，提交后会进入错题复盘。";
+  els.answerFeedback.innerHTML = buildAnswerFeedback(question, option);
   renderPassage();
+  renderToolStep(question);
   renderSentenceCheck(question);
+  toggleAnswerVisibility(question);
   updateProgress();
   if (allAnswered()) showResult();
 }
 
+function buildAnswerFeedback(question, option) {
+  const isCorrect = option === question.answer;
+  const mainText = isCorrect ? `答对了：${question.explanation}` : "先保留你的选择，提交后会进入错题复盘。";
+  if (!isAllOptionCollocationQuestion(question)) return mainText;
+  return `
+    <span>${mainText}</span>
+    <div class="option-meaning-summary">
+      <strong>固定搭配辨析：</strong>
+      ${getOptionCollocationMeanings(question).map((item) => `
+        <span class="${item.option === question.answer ? "correct" : ""}">
+          ${item.label}. ${item.option}：${item.meaning}
+        </span>
+      `).join("")}
+    </div>
+  `;
+}
+
 function toggleAnswerVisibility(question) {
   const passed = Boolean(state.posPassed[question.id]);
-  els.toolStep.classList.toggle("hidden", !passed);
+  const directCollocation = shouldSkipCollocationStep(question);
+  const answered = Boolean(state.answers[question.id]);
+  els.toolStep.classList.toggle("hidden", !passed || (directCollocation && !answered));
   els.answerStep.classList.toggle("hidden", !passed);
-  els.sentenceCheckStep.classList.toggle("hidden", !passed || !state.answers[question.id]);
+  els.sentenceCheckStep.classList.toggle("hidden", !passed || !answered);
 }
 
 function renderSentenceCheck(question) {
