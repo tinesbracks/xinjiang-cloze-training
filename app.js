@@ -4040,7 +4040,8 @@ function getClueSourceSentence(question, clue = "") {
   return found || "";
 }
 
-function getQuestionHighlightItems(question) {
+function getQuestionHighlightItems(question, options = {}) {
+  const revealCollocation = Boolean(options.revealCollocation);
   const clueItems = question.clues.map((clue, clueIndex) => ({
     clue,
     clueIndex,
@@ -4049,7 +4050,7 @@ function getQuestionHighlightItems(question) {
   const anchorTargets = getCollocationAnchorTargets(question);
   if (anchorTargets.length) {
     clueItems.push({
-      clue: `固定搭配骨架：${question.collocation}`,
+      clue: revealCollocation ? `固定搭配骨架：${question.collocation}` : `搭配核心词：${anchorTargets.join(" / ")}`,
       clueIndex: clueItems.length,
       targets: anchorTargets,
       relationType: "搭配核心词"
@@ -4118,13 +4119,9 @@ function showCollocationStepResult(question) {
   const hasCollocation = shouldUseCollocationFirst(question);
   els.posFeedback.className = "feedback good";
   if (hasCollocation) {
-    els.posFeedback.innerHTML = `
-      <div class="collocation-box">
-        <strong>${question.collocation}</strong>
-        <span>${question.collocationType || "固定搭配"}</span>
-        <p>${question.collocationBreakdown || ""}</p>
-      </div>
-    `;
+    els.posFeedback.textContent = state.answers[question.id]
+      ? "已完成选择：下方已展示固定搭配解析。"
+      : "判断正确：先看线索词和空格前后结构，选完答案后再看固定搭配解析。";
   } else if (hasStoredCollocation(question)) {
     els.posFeedback.textContent = "判断正确：本题虽然有搭配信息，但原文线索更优先，先按“无固定搭配”进入寻找线索。";
   } else {
@@ -4134,15 +4131,17 @@ function showCollocationStepResult(question) {
 
 function renderToolStep(question) {
   const tool = getTool(question);
-  els.toolTitle.textContent = tool.title;
+  const answered = Boolean(state.answers[question.id]);
+  const hiddenCollocation = shouldUseCollocationFirst(question) && !answered;
+  els.toolTitle.textContent = hiddenCollocation ? "线索词观察" : tool.title;
   els.toolGuide.innerHTML = buildToolGuide(question, tool);
   els.clueWords.innerHTML = "";
-  const clueItems = getQuestionHighlightItems(question);
+  const clueItems = getQuestionHighlightItems(question, { revealCollocation: answered });
   clueItems.forEach((item) => {
     const pill = document.createElement("button");
     pill.className = `clue-pill clue-${clueColors[item.clueIndex % clueColors.length]}`;
     const relationType = item.relationType || getClueRelationType(question, item.clue);
-    const sourceSentence = getClueSourceSentence(question, item.clue);
+    const sourceSentence = answered ? getClueSourceSentence(question, item.clue) : "";
     pill.innerHTML = `
       <strong>${item.clue}</strong>
       <span>${relationType}</span>
@@ -4180,7 +4179,9 @@ function getClueRelationType(question, clue = "") {
 
 function buildToolGuide(question, tool) {
   const base = `<p>${tool.guide}</p>`;
+  const answered = Boolean(state.answers[question.id]);
   if (isAllOptionCollocationQuestion(question)) {
+    if (!answered) return base;
     return `
       ${base}
       <div class="collocation-box collocation-lens-box">
@@ -4198,10 +4199,13 @@ function buildToolGuide(question, tool) {
     `;
   }
   if (!shouldUseCollocationFirst(question)) return base;
+  if (!answered) {
+    return "<p>先观察线索词和空格前后结构，不急着看完整搭配。选完答案后，再打开搭配放大镜复盘。</p>";
+  }
   return `
     ${base}
-    <div class="collocation-box">
-      <strong>固定搭配：${question.collocation}</strong>
+    <div class="collocation-box collocation-lens-box">
+      <strong>搭配放大镜：${question.collocation}</strong>
       <span>${question.collocationType}</span>
       <p>${question.collocationBreakdown}</p>
     </div>
@@ -4325,6 +4329,7 @@ function chooseAnswer(question, option, button) {
   button.classList.add(option === question.answer ? "correct" : "wrong");
   els.answerFeedback.className = option === question.answer ? "feedback good" : "feedback bad";
   els.answerFeedback.innerHTML = buildAnswerFeedback(question, option);
+  if (state.posPassed[question.id]) showCollocationStepResult(question);
   renderPassage();
   renderToolStep(question);
   renderSentenceCheck(question);
